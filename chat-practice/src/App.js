@@ -18,7 +18,7 @@ const App = () => {
     const inputMessageHandler = (e) => {
         e.preventDefault();
         setInputMessage(e.target.value);
-    };
+    }; 
     // 메시지 엔터키 이벤트
     function enterkey(e) {
         e.preventDefault();

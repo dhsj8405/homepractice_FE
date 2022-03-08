@@ -10,7 +10,7 @@ const App = () => {
             url: 'http://localhost:9099/main',
             method: 'GET'
         }).then((res)=> {
-            setStr(res);
+            setStr(res.data);
         })
     },[]);
     

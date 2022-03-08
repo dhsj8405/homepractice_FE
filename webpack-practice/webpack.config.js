@@ -18,6 +18,10 @@ module.exports = {
     // webpack은 js뿐만 아니라 Loader를 이용하여 CSS나 이미지, 웹폰트, jSX, VUE 등 
     // 다양한 종류의 파일을 함께 번들링 할 수 있는데 그 설정을 여기서 하는 것이다.
     module:{
-        rules: []
+        rules: [
+            {
+                test : /\.css$/, use : ["style-loader", "css-loader"] //use 배열안에 여러 로더를 설정할 경우 로더의 실행 순서는 오른쪽에서 왼쪽순으로 실행
+            }
+        ]
     },
 }
