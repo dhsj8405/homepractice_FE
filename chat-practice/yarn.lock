@@ -1034,7 +1034,15 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@stomp/stompjs@^6.1.2":
+"@stomp/rx-stomp@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@stomp/rx-stomp/-/rx-stomp-1.1.4.tgz#58137b6e113ec9f096768f3275ef94ea4ae59e14"
+  integrity sha512-qSwuySHGumFanzLdXCLnwxZ+ZPjyT1Bt1Gs99jRa/Li8Z0rsjJvUsGsOjNOb0LJUY/wNpytFNhPDKfuELlk4GQ==
+  dependencies:
+    "@stomp/stompjs" "^6.0.0 >=6.1.1"
+    angular2-uuid "^1.1.1"
+
+"@stomp/stompjs@^6.0.0 >=6.1.1", "@stomp/stompjs@^6.1.2":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@stomp/stompjs/-/stompjs-6.1.2.tgz#4ac3c380e8d1de1da94a3623d404e67de69dd01e"
   integrity sha512-FHDTrIFM5Ospi4L3Xhj6v2+NzCVAeNDcBe95YjUWhWiRMrBF6uN3I7AUOlRgT6jU/2WQvvYK8ZaIxFfxFp+uHQ==
@@ -1423,6 +1431,11 @@ ajv@^8.0.0, ajv@^8.8.0:
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
+
+angular2-uuid@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/angular2-uuid/-/angular2-uuid-1.1.1.tgz#72f03cd532b7f40032eb1ecfb9f8457384be956e"
+  integrity sha1-cvA81TK39AAy6x7PufhFc4S+lW4=
 
 ansi-html-community@^0.0.8:
   version "0.0.8"
@@ -4892,11 +4905,6 @@ websocket-extensions@>=0.1.1:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
   integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==
-
-webstomp-client@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/webstomp-client/-/webstomp-client-1.2.6.tgz#57e8a044bac0a08bfc3d0e54d43760c2aeefadab"
-  integrity sha512-9HajO6Ki2ViEGIusLZtjM2lcO2VaQUvtXhLQQ4Cm543RLjfTCEgI3sFaiXts3TvfZgrtY/vI/+qUkm2qWD/NVg==
 
 which@^2.0.1, which@^2.0.2:
   version "2.0.2"
