@@ -120,6 +120,8 @@ const App = () => {
     <div>
         <h1>{str}</h1>             
         <td>{content}</td>
+        <td></td>
+        
         <input
                 
                 type="text"
