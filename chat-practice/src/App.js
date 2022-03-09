@@ -1,9 +1,28 @@
 import axios from 'axios'
+// axios.defaults.withCredentials = true;
 import React, { useState, useEffect } from 'react';
 // import * as Stomp from "webstomp-client";
 import { Stomp } from '@stomp/stompjs';
 // import { Stomp } from '@stomp/rx-stomp';
 import SockJS from "sockjs-client";
+
+import { Input } from 'reactstrap';
+import styled from 'styled-components';
+
+
+const ChatBoxStyle = styled.div`
+  width: 300px;
+  height : 200px;
+  padding: 10px 10px 0px 10px ;
+  border: 2px solid #F3F7F9;
+  text-align: left;
+`;
+
+const ChatInputStyle = styled.input`
+width: 300px;
+padding: 9px 9px 0px 9px ;
+height: 30px;
+`;
 
 const App = () => {
     const [ str, setStr ] = useState('');
@@ -12,7 +31,8 @@ const App = () => {
     // const [enterStatus, setEnterStatus] = useState(false);
     const [content, setContent]= useState('');
     const [inputMessage, setInputMessage]= useState('');
-    
+    const [users, setUsers] = useState('');
+    const [inviteChat, setInviteChat] = useState([]);
     // var sock = new SockJS('http://localhost:9099/stomp')
     // var client = Stomp.over(sock);
     
@@ -20,17 +40,6 @@ const App = () => {
         return new SockJS('http://localhost:9099/stomp')
     });
 
-    // client.reconnect_delay = 5000;
-
-    // const client = new Stomp.Client({
-    //     brokerURL: 'ws://localhost:9099/ws',
-    //     debug: function (str) {
-    //       console.log(str);
-    //     },
-    //     reconnectDelay: 5000,
-    //     heartbeatIncoming: 4000,
-    //     heartbeatOutgoing: 4000,
-    //   });
 
     
     
@@ -58,14 +67,14 @@ const App = () => {
             client.connect({}, ()=>{
                 client.publish({
                     destination: '/app/chat/message',
-                    body: JSON.stringify({ chatRoomNo: 1, msg: msg, send_user_no: 1 }),
+                    body: JSON.stringify({ chatMsgNo: 1, message: "ㅎㅇ", sendUserNo: 1 }),
                     header: {}
                 });
             })
         }else{
             client.publish({
                 destination: '/app/chat/message',
-                body: JSON.stringify({ chatRoomNo: 1, msg: msg, send_user_no: 1 }),
+                body: JSON.stringify({ chatMsgNo: 1, message: "ㅎㅇ", sendUserNo: 1  }),
                 header: {}
             });
         }
@@ -89,7 +98,7 @@ const App = () => {
             console.log("fdfdsafdsafdsafdsafsafdasfdasfdsafasdfasdfdsa"+client);
             console.log(client);
             //send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
-            client.send('/app/chat/enter',{},JSON.stringify({roomId: 1, roomName:"1번방",userNo : 1}));
+            client.send('/app/chat/enter',{},JSON.stringify({chatRoomNo: 1, chatTitle: "ㅎㅇ"}));
             client.activate();
 
         })
@@ -102,33 +111,81 @@ const App = () => {
             url: 'http://localhost:9099/main',
             method: 'GET'
         }).then((res)=> {
-            setStr(res.data);
+            setUsers(res.data);
+            console.log(res.data);
         })
         socketConn();
 
     },[]);
 
 
-    
-    
- 
-    // const onClickOut = (e) => {
-    //     setEnterStatus(false);
+    const onClickUserName = (user,e) => {
+        // console.log(e.target)
+        // console.log(user)
+        // setInviteChat(Object.assign({}, inviteChat, user));
+        setInviteChat([...inviteChat, user])
+        
+        console.log(inviteChat)
+    }
 
-    // }
+    const onFocusUserName = (e) => {
+        console.log("zz")
+    }
+    
+    // 초대버튼
+    const onClickInvite = (e,user) => {
+        console.log(user)
+        axios({
+            url: 'http://localhost:9099/chat/invite',
+            method: 'post',
+            data: user
+        }).then((res)=> {
+            console.log(res);
+        })
+
+    }
     return (
     <div>
-        <h1>{str}</h1>             
-        <td>{content}</td>
+        {/* <h1>{str}</h1>              */}
+        
+        <td>{content}</td><br/>
         <td></td>
         
-        <input
+     
+        <td>사람목록</td><br/>
+        {users.list && users.list.map((user)=>
+            <td 
+                onClick={(e) => onClickUserName(user,e)}
+                style = {{cursor:'pointer'}}
+            >{user.name}</td>
+        )}
+
+        <br/><br/><td>채팅 초대하기 </td><br/>
+        {
+        inviteChat.length === 0
+            ? <td></td>
+            
+            : inviteChat && inviteChat.map((user)=>
+            <td >{user.name}</td>
+            
+            )
+        }
+        <button onClick={(e)=> onClickInvite(e,inviteChat)}>초대버튼</button>
+        
+        <br/><br/>
+        <div>
+        <ChatBoxStyle>
+
+        </ChatBoxStyle>
+        <ChatInputStyle
                 
                 type="text"
                 value={inputMessage}
                 onChange={inputMessageHandler}
                 onKeyUp={(e) => enterkey(e)}
         />
+        </div>
+        
     </div>
         
     );
