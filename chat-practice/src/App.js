@@ -33,6 +33,12 @@ const App = () => {
     const [inputMessage, setInputMessage]= useState('');
     const [users, setUsers] = useState('');
     const [inviteChat, setInviteChat] = useState([]);
+    const [createChatRoomNO, setCreateChatRoomNO] = useState('');
+    const [loginUser, setLoginUser] = useState({
+        id: "",
+        pwd: "",
+    });
+    const[messageList, setMessageList] = useState([]);
     // var sock = new SockJS('http://localhost:9099/stomp')
     // var client = Stomp.over(sock);
     
@@ -67,14 +73,14 @@ const App = () => {
             client.connect({}, ()=>{
                 client.publish({
                     destination: '/app/chat/message',
-                    body: JSON.stringify({ chatMsgNo: 1, message: "ㅎㅇ", sendUserNo: 1 }),
+                    body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, sendUserNo: 1 }),
                     header: {}
                 });
             })
         }else{
             client.publish({
                 destination: '/app/chat/message',
-                body: JSON.stringify({ chatMsgNo: 1, message: "ㅎㅇ", sendUserNo: 1  }),
+                body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, sendUserNo: 1  }),
                 header: {}
             });
         }
@@ -91,7 +97,7 @@ const App = () => {
         client.connect({}, ()=>{
             console.log("소켓연결");
             //subscribe(path, callback)으로 메세지를 받을 수 있음
-            client.subscribe('/topic/chat/room/a',(chat)=>{
+            client.subscribe('/topic/chat/room/1',(chat)=>{
                 var content = JSON.parse(chat.body);
                 setContent(content.inputMessage)
             })
@@ -103,17 +109,19 @@ const App = () => {
 
         })
 
-
     }
+
     // 첫 렌더링에만 호출하기(매개변수로 빈배열)
     useEffect(() =>{
         axios({
             url: 'http://localhost:9099/main',
             method: 'GET'
         }).then((res)=> {
+            //사람 목록 가져옴
             setUsers(res.data);
             console.log(res.data);
         })
+        // 방생성돼있다 가정하고 방번호
         socketConn();
 
     },[]);
@@ -141,26 +149,95 @@ const App = () => {
             data: user
         }).then((res)=> {
             console.log(res);
+            // setCreateChatRoomNO(res.data);
+            openChatRoom(res.data);
         })
+
+    }
+
+    // // 친구선택후 초대버튼눌린후  방생성
+    // const openChatRoom = (roomNo) =>{
+    //     //소켓연결
+    //     client.connect({}, ()=>{
+    //         console.log("소켓연결");
+            
+    //         //subscribe(path, callback)으로 메세지를 받을 수 있음
+    //         client.subscribe(`/topic/chat/room/${roomNo}`,(chat)=>{
+    //             var content = JSON.parse(chat.body);
+    //             console.log(content);
+    //             console.log("z");
+    //             setContent(content.name)
+    //         })
+
+    //         //send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
+    //         client.send('/app/chat/enter',{},JSON.stringify({no: roomNo, name: "<채팅방이름1>"}));
+    //         // client.activate();
+
+    //     })
+    // }
+
+    
+    const onChangeInputId = (e) => {
+        setLoginUser( Object.assign({}, loginUser, { id: e.target.value }))
+    };
+
+    const onChangeInputPwd = (e) => {
+        setLoginUser( Object.assign({}, loginUser, { pwd: e.target.value }))
+    }
+    // 가라아이디비번으로 룸번호 가져오기
+    const onClickLogin = (e,user) => {
+        e.preventDefault();
+        console.log(user);
+        if(loginUser.id === "aaaa" ){
+            axios({
+                url: 'http://localhost:9099/chat/msgList',
+                method: 'GET'
+            }).then((res)=> {
+                console.log(res.data.list[0].message);
+                console.log(res.data);
+                setMessageList(res.data.list);
+
+                // setCreateChatRoomNO(res.data);
+                // openChatRoom(res.data);
+            })
+        }else{
+            console.log("메시지리스트없음")
+        }
+
 
     }
     return (
     <div>
         {/* <h1>{str}</h1>              */}
         
-        <td>{content}</td><br/>
         <td></td>
-        
-     
-        <td>사람목록</td><br/>
+        <input
+            placeholder="아이디"
+            type="id"
+            value={loginUser.id}
+            onChange={onChangeInputId}
+        />
+                 
+        <input
+          placeholder="비번"
+          type="password"
+          value={loginUser.pwd}
+          onChange={onChangeInputPwd}
+        />
+        <button onClick={(e)=> onClickLogin(e,loginUser)}>로그인하기</button>
+
+        <h3>사람목록</h3><br/>
         {users.list && users.list.map((user)=>
             <td 
                 onClick={(e) => onClickUserName(user,e)}
                 style = {{cursor:'pointer'}}
             >{user.name}</td>
         )}
+        <br/>
+        <h3>채팅리스트</h3>
 
-        <br/><br/><td>채팅 초대하기 </td><br/>
+
+        <br/><br/><h3>채팅 초대하기 </h3><br/>
         {
         inviteChat.length === 0
             ? <td></td>
@@ -175,7 +252,11 @@ const App = () => {
         <br/><br/>
         <div>
         <ChatBoxStyle>
-
+            {/* {content} */}
+            {messageList.list && messageList.list.map((list)=>
+            
+            <li>{list.message}</li>
+        )}
         </ChatBoxStyle>
         <ChatInputStyle
                 
@@ -184,8 +265,8 @@ const App = () => {
                 onChange={inputMessageHandler}
                 onKeyUp={(e) => enterkey(e)}
         />
+
         </div>
-        
     </div>
         
     );
