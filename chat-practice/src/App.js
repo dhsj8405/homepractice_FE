@@ -73,14 +73,14 @@ const App = () => {
             client.connect({}, ()=>{
                 client.publish({
                     destination: '/app/chat/message',
-                    body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, sendUserNo: 1 }),
+                    body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, chatRoomNo: 1,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 }),
                     header: {}
                 });
             })
         }else{
             client.publish({
                 destination: '/app/chat/message',
-                body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, sendUserNo: 1  }),
+                body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, chatRoomNo: 1, sendUserNo: loginUser.id === "aaaa" ? 1 : 2  }),
                 header: {}
             });
         }
@@ -188,13 +188,13 @@ const App = () => {
     const onClickLogin = (e,user) => {
         e.preventDefault();
         console.log(user);
-        if(loginUser.id === "aaaa" ){
+        if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
             axios({
                 url: 'http://localhost:9099/chat/msgList',
                 method: 'GET'
             }).then((res)=> {
                 console.log(res.data.list[0].message);
-                console.log(res.data);
+                console.log(res.data.list);
                 setMessageList(res.data.list);
 
                 // setCreateChatRoomNO(res.data);
@@ -253,9 +253,10 @@ const App = () => {
         <div>
         <ChatBoxStyle>
             {/* {content} */}
-            {messageList.list && messageList.list.map((list)=>
-            
-            <li>{list.message}</li>
+            {messageList && messageList.map((list)=>
+            <div>
+            <td>{list.message}</td><br/>
+            </div>
         )}
         </ChatBoxStyle>
         <ChatInputStyle
