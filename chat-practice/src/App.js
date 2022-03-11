@@ -84,7 +84,8 @@ const App = () => {
                 header: {}
             });
         }
-        
+        getMessageList();
+        console.log("왜안되노")
         
     }
     
@@ -187,7 +188,29 @@ const App = () => {
     // 가라아이디비번으로 룸번호 가져오기
     const onClickLogin = (e,user) => {
         e.preventDefault();
-        console.log(user);
+        // console.log(user);
+
+        getMessageList();
+        // if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
+        //     axios({
+        //         url: 'http://localhost:9099/chat/msgList',
+        //         method: 'GET'
+        //     }).then((res)=> {
+        //         console.log(res.data.list[0].message);
+        //         console.log(res.data.list);
+        //         setMessageList(res.data.list);
+
+        //         // setCreateChatRoomNO(res.data);
+        //         // openChatRoom(res.data);
+        //     })
+        // }else{
+        //     console.log("메시지리스트없음")
+        // }
+
+    }
+
+    // 채팅방안 메시지 리스트 가져오기
+    const getMessageList = () => {
         if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
             axios({
                 url: 'http://localhost:9099/chat/msgList',
@@ -203,8 +226,6 @@ const App = () => {
         }else{
             console.log("메시지리스트없음")
         }
-
-
     }
     return (
     <div>
