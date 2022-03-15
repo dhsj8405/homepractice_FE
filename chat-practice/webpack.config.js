@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
     mode: 'development', 
     
+    // 웹팩이 빌드할 파일의 시작 위치
     // 의존성 분석을 src밑에 index.js부터한다 == entry 속성은 최상위 자바스크립트를 의미
     // 이 속성에 명시된 파일을 기준으로 의존성 트리를 만들어 하나의 번틀 파일을 만든다.
     entry: path.resolve('./src/index'),     
@@ -31,6 +32,9 @@ module.exports = {
         }]
     },
     devtool: "eval-source-map",                     //에러났을때 에러위치를 번들링.js로 표시해서 원래소스랑 매핑해주는것
+    
+    // 빌드 명령어 입력 필요없어짐 변경사항 감지해서 자동으로 반영해줌
+    // 메모리 상으로만 빌드한 결과물을 브라우저에 전달하는것
     devServer: {
         // contentBase: path.resolve('public'),
         host: '0.0.0.0',

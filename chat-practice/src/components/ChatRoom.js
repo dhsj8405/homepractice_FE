@@ -5,14 +5,16 @@ import ChatContentsBox from './ChatContentsBox.js';
 import ChatInputBox from './ChatInputBox.js';
 
 
-const ChatRoom = ({messageList, client, loginUser}) => {
+const ChatRoom = ({selectChatRoom, messageList, client, loginUser, getMessageList}) => {
     
 
     return (
         <div>
 
-            <ChatContentsBox   
+            <ChatContentsBox  
+                selectChatRoom = {selectChatRoom}
                 messageList={messageList}
+                getMessageList = {getMessageList}
             />
         
             <ChatInputBox

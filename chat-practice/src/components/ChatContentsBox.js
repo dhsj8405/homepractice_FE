@@ -12,7 +12,7 @@ const ChatBoxStyle = styled.div`
 `;
 
 
-const ChatContentsBox = ({messageList}) => {
+const ChatContentsBox = ({selectChatRoom,messageList,getMessageList}) => {
     
     return (
 

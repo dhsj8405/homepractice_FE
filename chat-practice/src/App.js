@@ -8,6 +8,7 @@ import SockJS from "sockjs-client";
 
 import { Input } from 'reactstrap';
 import styled from 'styled-components';
+import ChatRoomList from './components/ChatRoomList'
 import ChatRoom from './components/ChatRoom'
 
 const ChatBoxStyle = styled.div`
@@ -38,11 +39,13 @@ const App = () => {
         id: "",
         pwd: "",
     });
+    const[chatRoomList, setChatRoomList] = useState([]);
+    const[selectChatRoom, setSelectChatRoom] = useState();
     const[messageList, setMessageList] = useState([]);
     // var sock = new SockJS('http://localhost:9099/stomp')
     // var client = Stomp.over(sock);
     
-    var client = Stomp.over( () => {
+    const client = Stomp.over( () => {
         return new SockJS('http://localhost:9099/stomp')
     });
 
@@ -105,7 +108,7 @@ const App = () => {
             console.log(client);
             //send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
             client.send('/app/chat/enter',{},JSON.stringify({chatRoomNo: 1, chatTitle: "ㅎㅇ"}));
-            client.activate();
+            // client.activate();
 
         })
 
@@ -187,9 +190,8 @@ const App = () => {
     // 가라아이디비번으로 룸번호 가져오기
     const onClickLogin = (e,user) => {
         e.preventDefault();
-        // console.log(user);
-
-        getMessageList();
+        getChatRoomList();
+        // getMessageList();
         // if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
         //     axios({
         //         url: 'http://localhost:9099/chat/msgList',
@@ -207,12 +209,42 @@ const App = () => {
         // }
 
     }
-
-    // 채팅방안 메시지 리스트 가져오기
-    const getMessageList = () => {
+    // 아이디에 해당되는 채팅방 가져옴
+    const getChatRoomList = () => {
         if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
             axios({
-                url: 'http://localhost:9099/chat/msgList',
+                url: 'http://localhost:9099/chat/chatRoomList',
+                method: 'post',
+                data: loginUser
+            }).then((res)=> {
+                
+                console.log(res.data.list);
+                setChatRoomList(res.data.list);
+            })
+        }else{
+            console.log("채팅방없음")
+        }
+    }
+
+    // 채팅방 클릭
+    const onClickRoomEnter = (e,chatRoom) => {
+        e.preventDefault();
+        console.log(chatRoom);
+        setSelectChatRoom(chatRoom);
+    }
+    // 채팅방 클릭이 됐을때(즉, 상태값에 클릭된 정보가 입력됐을때) 메시지리스트가져오기
+    useEffect(() =>{
+        if(selectChatRoom != undefined){
+        
+        getMessageList(selectChatRoom.no);}
+    },[selectChatRoom]);
+
+
+    // 채팅방안 메시지 리스트 가져오기
+    const getMessageList = (chatRoomNo) => {
+        if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
+            axios({
+                url: `http://localhost:9099/chat/msgList/${chatRoomNo}`,
                 method: 'GET'
             }).then((res)=> {
                 console.log(res.data.list[0].message);
@@ -256,8 +288,13 @@ const App = () => {
             >{user.name}</td>
         )}
         <br/>
-        <h3>채팅리스트</h3>
-
+        
+        <h3>채팅방 리스트</h3>
+            <ChatRoomList
+                chatRoomList = {chatRoomList}
+                onClickRoomEnter = {onClickRoomEnter}
+                // setSelectChatRoom = {setSelectChatRoom}
+            />
 
         <br/><br/><h3>채팅 초대하기 </h3><br/>
         {
@@ -274,12 +311,14 @@ const App = () => {
         <br/><br/>
         <div>
         <ChatRoom
+            selectChatRoom = {selectChatRoom}
             messageList = {messageList}
             client = {client}
             loginUser = {loginUser}
             getMessageList = {getMessageList} 
         />
 
+        
         {/* <ChatBoxStyle>
         
             {messageList && messageList.map((list)=>
