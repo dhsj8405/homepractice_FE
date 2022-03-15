@@ -250,14 +250,14 @@ const App = () => {
                 console.log(res.data.list[0].message);
                 console.log(res.data.list);
                 setMessageList(res.data.list);
-
+                
                 // setCreateChatRoomNO(res.data);
                 // openChatRoom(res.data);
             })
         }else{
             console.log("메시지리스트없음")
         }
-    }
+    } 
 
 
     return (
