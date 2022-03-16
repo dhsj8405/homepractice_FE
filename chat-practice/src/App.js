@@ -1,6 +1,6 @@
 import axios from 'axios'
 // axios.defaults.withCredentials = true;
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 // import * as Stomp from "webstomp-client";
 import { Stomp } from '@stomp/stompjs';
 // import { Stomp } from '@stomp/rx-stomp';
@@ -42,11 +42,12 @@ const App = () => {
     const[chatRoomList, setChatRoomList] = useState([]);
     const[selectChatRoom, setSelectChatRoom] = useState();
     const[messageList, setMessageList] = useState([]);
-    // var sock = new SockJS('http://localhost:9099/stomp')
+    // var sock = new SockJS('http://localhost:9099/stomp/connect')
     // var client = Stomp.over(sock);
     
+    //1. SockJS를 내부에 들고있는 stomp를 내어줌
     const client = Stomp.over( () => {
-        return new SockJS('http://localhost:9099/stomp')
+        return new SockJS('http://localhost:9099/stomp/connect')
     });
 
 
@@ -88,26 +89,28 @@ const App = () => {
     //         });
     //     }
     //     getMessageList();
-        
     // }
     
     // 소켓연결
-    const socketConn = () => {
+    var socketConn = () => {
         // setEnterStatus(true);
-       
-       
-        //소켓연결
+        
+        //2. 소켓연결
         client.connect({}, ()=>{
-            console.log("소켓연결");
-            //subscribe(path, callback)으로 메세지를 받을 수 있음
-            client.subscribe('/topic/chat/room/1',(chat)=>{
+            console.log(client.connect)
+        console.log("++@@@@@@@@++")
+            console.log("소켓연결"); 
+            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+            client.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
+                console.log(chat.body)
                 var content = JSON.parse(chat.body);
-                setContent(content.inputMessage)
+                console.log(content.message);
+                setContent(content.message)
             })
-            console.log("fdfdsafdsafdsafdsafsafdasfdasfdsafasdfasdfdsa"+client);
-            console.log(client);
-            //send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
-            client.send('/app/chat/enter',{},JSON.stringify({chatRoomNo: 1, chatTitle: "ㅎㅇ"}));
+            
+        console.log("+++++++++++++++++++++++++++++++++++++++++++++++");
+            //3. send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
+            client.send('/app/chat/enter',{},JSON.stringify({messageNo: 1, message: "", chatRoomNo: selectChatRoom.no}));
             // client.activate();
 
         })
@@ -122,11 +125,7 @@ const App = () => {
         }).then((res)=> {
             //사람 목록 가져옴
             setUsers(res.data);
-            console.log(res.data);
         })
-        // 방생성돼있다 가정하고 방번호
-        socketConn();
-
     },[]);
 
 
@@ -231,20 +230,21 @@ const App = () => {
         e.preventDefault();
         console.log(chatRoom);
         setSelectChatRoom(chatRoom);
+        // 채팅방 들어왔으니 소켓 연결하기
     }
     // 채팅방 클릭이 됐을때(즉, 상태값에 클릭된 정보가 입력됐을때) 메시지리스트가져오기
     useEffect(() =>{
         if(selectChatRoom != undefined){
-        
-        getMessageList(selectChatRoom.no);}
+        socketConn();
+        getMessageList(selectChatRoom);}
     },[selectChatRoom]);
 
 
     // 채팅방안 메시지 리스트 가져오기
-    const getMessageList = (chatRoomNo) => {
+    const getMessageList = (chatRoom) => {
         if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
             axios({
-                url: `http://localhost:9099/chat/msgList/${chatRoomNo}`,
+                url: `http://localhost:9099/chat/msgList/${chatRoom.no}`,
                 method: 'GET'
             }).then((res)=> {
                 console.log(res.data.list[0].message);

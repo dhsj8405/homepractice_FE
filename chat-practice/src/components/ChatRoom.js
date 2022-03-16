@@ -20,6 +20,8 @@ const ChatRoom = ({selectChatRoom, messageList, client, loginUser, getMessageLis
             <ChatInputBox
                 client={client}
                 loginUser = {loginUser}
+                selectChatRoom = {selectChatRoom}
+
             />
             
         </div>
