@@ -9,7 +9,7 @@ const ChatRoom = ({selectChatRoom, messageList, client, loginUser, getMessageLis
     
 
     return (
-        <div>
+        <>
 
             <ChatContentsBox  
                 selectChatRoom = {selectChatRoom}
@@ -24,7 +24,7 @@ const ChatRoom = ({selectChatRoom, messageList, client, loginUser, getMessageLis
 
             />
             
-        </div>
+        </>
     );
 }
 

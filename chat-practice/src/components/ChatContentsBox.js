@@ -15,16 +15,16 @@ const ChatBoxStyle = styled.div`
 const ChatContentsBox = ({selectChatRoom,messageList,getMessageList}) => {
     
     return (
-
-        <ChatBoxStyle>
-            {/* {content} */}
-            {messageList && messageList.map((list)=>
-            <div>
-            <td>{list.message}</td><br/>
-            </div>
-        )}
-        </ChatBoxStyle>
-
+        <>
+            <ChatBoxStyle>
+                {/* {content} */}
+                {messageList && messageList.map((list)=>
+                <div>
+                <td>{list.message}</td><br/>
+                </div>
+            )}
+            </ChatBoxStyle>
+        </>
     );
 }
 

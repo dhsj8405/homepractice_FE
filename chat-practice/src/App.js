@@ -261,7 +261,7 @@ const App = () => {
 
 
     return (
-    <div>
+    <>
         {/* <h1>{str}</h1>              */}
         
         <td></td>
@@ -337,7 +337,7 @@ const App = () => {
         /> */}
 
         </div>
-    </div>
+    </>
         
     );
 }

@@ -10,7 +10,7 @@ const ChatRoomList = ({chatRoomList, onClickRoomEnter , setSelectChatRoom}) => {
 
     return (
 
-        <div>
+        <>
             {
                 chatRoomList && chatRoomList.map((list)=>
                     <div>
@@ -18,7 +18,7 @@ const ChatRoomList = ({chatRoomList, onClickRoomEnter , setSelectChatRoom}) => {
                     </div>
                 )
             }
-       </div>
+       </>
     );
 }
 

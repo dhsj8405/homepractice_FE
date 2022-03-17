@@ -82,7 +82,7 @@ const ChatInputBox = ({client, loginUser, selectChatRoom}) => {
     }
     return (
 
-        <div>
+        <>
             <ChatInputStyle        
                 type="text"
                 value={inputMessage}
@@ -90,7 +90,7 @@ const ChatInputBox = ({client, loginUser, selectChatRoom}) => {
                 onKeyUp={(e) => sendEnter(e)}
             />
             <button onClick={(e) => sendBtn(e)}>전송</button>
-        </div>
+        </>
 
     );
 }
