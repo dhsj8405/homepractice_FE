@@ -3,8 +3,9 @@ import axios from 'axios'
 import React, { useState, useEffect,useRef } from 'react';
 // import * as Stomp from "webstomp-client";
 import { Stomp } from '@stomp/stompjs';
+
 // import { Stomp } from '@stomp/rx-stomp';
-import SockJS from "sockjs-client";
+import SockJS from 'sockjs-client';
 
 import { Input } from 'reactstrap';
 import styled from 'styled-components';
@@ -42,14 +43,14 @@ const App = () => {
     const[chatRoomList, setChatRoomList] = useState([]);
     const[selectChatRoom, setSelectChatRoom] = useState();
     const[messageList, setMessageList] = useState([]);
-    // var sock = new SockJS('http://localhost:9099/stomp/connect')
-    // var client = Stomp.over(sock);
-    
+
+
     //1. SockJS를 내부에 들고있는 stomp를 내어줌
-    const client = Stomp.over( () => {
+    const stompClient = Stomp.over( () => {
         return new SockJS('http://localhost:9099/stomp/connect')
     });
-
+    // const sock = new SockJS('http://localhost:9099/stomp/connect');
+    // const stompClient = Stomp.over(sock);
 
     
     
@@ -69,20 +70,20 @@ const App = () => {
     // }
     //  // 메시지 전송 함수
     //  var sandMessage = (msg) => {
-    //     // client.send('/app/chat/message', {}, JSON.stringify({ chatRoomNo: 1, msg: msg, send_user_no: 1 }));
+    //     // stompClient.send('/app/chat/message', {}, JSON.stringify({ chatRoomNo: 1, msg: msg, send_user_no: 1 }));
         
-    //     if(client.disconnect){
+    //     if(stompClient.disconnect){
     //         // connect 돼있으면 알아서 Already ACTIVE, ignoring request to activate 라고 말해주면서 연결안하고 넘어감 
     //         // 연결이 끊기기전(메시지 빠르게연속으로보낼때)에 보내면 메시지 전송안되기때문에 밑에 else로 연결돼있을때도 메시지 보낼 수 있어야함
-    //         client.connect({}, ()=>{
-    //             client.publish({
+    //         stompClient.connect({}, ()=>{
+    //             stompClient.publish({
     //                 destination: '/app/chat/message',
     //                 body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, chatRoomNo: 1,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 }),
     //                 header: {}
     //             });
     //         })
     //     }else{
-    //         client.publish({
+    //         stompClient.publish({
     //             destination: '/app/chat/message',
     //             body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, chatRoomNo: 1, sendUserNo: loginUser.id === "aaaa" ? 1 : 2  }),
     //             header: {}
@@ -96,23 +97,23 @@ const App = () => {
         // setEnterStatus(true);
         
         //2. 소켓연결
-        client.connect({}, ()=>{
-            console.log(client.connect)
-        console.log("++@@@@@@@@++")
-            console.log("소켓연결"); 
+        stompClient.connect({}, function(frame){
+            console.log("Connected: "+frame); 
             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-            client.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
+            stompClient.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
                 console.log(chat.body)
                 var content = JSON.parse(chat.body);
                 console.log(content.message);
                 setContent(content.message)
             })
             
+		stompClient.heartbeat.outgoing = 0;
+		stompClient.heartbeat.incoming = 0;
         console.log("+++++++++++++++++++++++++++++++++++++++++++++++");
             //3. send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
-            client.send('/app/chat/enter',{},JSON.stringify({messageNo: 1, message: "", chatRoomNo: selectChatRoom.no}));
-            // client.activate();
-
+            stompClient.send('/app/chat/enter',{},JSON.stringify({messageNo: 1, message: "", chatRoomNo: selectChatRoom.no}));
+            // stompClient.activate();
+        
         })
 
     }
@@ -160,11 +161,11 @@ const App = () => {
     // // 친구선택후 초대버튼눌린후  방생성
     // const openChatRoom = (roomNo) =>{
     //     //소켓연결
-    //     client.connect({}, ()=>{
+    //     stompClient.connect({}, ()=>{
     //         console.log("소켓연결");
             
     //         //subscribe(path, callback)으로 메세지를 받을 수 있음
-    //         client.subscribe(`/topic/chat/room/${roomNo}`,(chat)=>{
+    //         stompClient.subscribe(`/topic/chat/room/${roomNo}`,(chat)=>{
     //             var content = JSON.parse(chat.body);
     //             console.log(content);
     //             console.log("z");
@@ -172,8 +173,8 @@ const App = () => {
     //         })
 
     //         //send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
-    //         client.send('/app/chat/enter',{},JSON.stringify({no: roomNo, name: "<채팅방이름1>"}));
-    //         // client.activate();
+    //         stompClient.send('/app/chat/enter',{},JSON.stringify({no: roomNo, name: "<채팅방이름1>"}));
+    //         // stompClient.activate();
 
     //     })
     // }
@@ -313,7 +314,7 @@ const App = () => {
         <ChatRoom
             selectChatRoom = {selectChatRoom}
             messageList = {messageList}
-            client = {client}
+            stompClient = {stompClient}
             loginUser = {loginUser}
             getMessageList = {getMessageList} 
         />

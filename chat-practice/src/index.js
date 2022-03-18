@@ -1,10 +1,13 @@
 import ReactDOM from 'react-dom';
-import App from './App.js';           // ex6의 언어적인 모듈시스템 : 언어적으로 표현
+// import App from './App.js';           
+import App2 from './App2.js'; 
 import React from 'react';
 
 ReactDOM.render(
     
-    <App />,
+    // <App />,
+    <App2 />,
+    
     // App(), 
     
     document.getElementById('root')
