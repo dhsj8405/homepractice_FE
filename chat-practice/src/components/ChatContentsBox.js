@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import styled from 'styled-components';
 // import chatStyle from "assets/chatstyle.css";
@@ -14,25 +14,28 @@ import chatStyle from '../assets/css/chatstyle.css';
 const ChatWrap = styled.div`
 border:1px 
 solid #999; 
-width:300px; 
+width:330px; 
 padding:5px; 
 font-size:13px; 
 color:#333; 
-height: 400px;
+height: 500px;
 `;
 
 const ChatHeader = styled.div`
 font-size: 14px; 
-padding: 15px 0; 
-background: #F18C7E; 
+padding: 15px 0;
+background: #AFD7AF; 
 color: white; 
 text-align: center;
     
 `;
 
-const ChatUl = styled.ul`
+const ChatUl = styled.div`
 width: 100%; 
+height: 450px;
+margin: 5px 0;
 list-style: none;
+overflow: auto;
 `;
 
 const ChatLi = styled.div`
@@ -77,6 +80,13 @@ text-align: left;
 
 const ChatContentsBox = ({messageList,loginUser}) => {
     
+    // const scrollRef = useRef();
+    // const downScroll = () =>{
+    //     console.log(scrollRef.current)
+    //     console.log("z;z")
+    //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
+    // }
+    // downScroll();
     return (
         
         <ChatWrap>
@@ -100,14 +110,12 @@ const ChatContentsBox = ({messageList,loginUser}) => {
                                     :
                                     
                                         <ChatLiLeft>
-                                            <div className={chatStyle.other}>
                                                 <Sender>
                                                     {list.sendUserName}
                                                 </Sender>
                                                 <Leftmsg>
                                                     {list.message}
                                                 </Leftmsg>
-                                            </div>
                                         </ChatLiLeft>
                                 }
                                 

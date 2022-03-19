@@ -148,13 +148,22 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
         if (window.event.keyCode == 13) {
             console.log("들어오냐?")
             // 메시지 보내기
-            sendMessage(inputMessage);
+            if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
+
+            }else{
+                sendMessage(inputMessage);
+            }
         }
     }
     //2. 버튼 
     const sendBtn = (e) => {
         e.preventDefault();
-        sendMessage(inputMessage);
+        if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
+
+        }else{
+            sendMessage(inputMessage);
+        }
+        
     }
 
     return (
