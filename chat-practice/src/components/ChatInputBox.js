@@ -9,7 +9,7 @@ padding: 9px 9px 0px 9px ;
 height: 30px;
 `;
 
-const ChatInputBox = ({sendMessage,setInputMessage, inputMessage }) => {
+const ChatInputBox = ({setInputMessage, inputMessage, sendBtn, sendEnter }) => {
     // const [inputMessage, setInputMessage]= useState("");
      
 
@@ -21,23 +21,6 @@ const ChatInputBox = ({sendMessage,setInputMessage, inputMessage }) => {
         setInputMessage(e.target.value);
     }; 
 
-/*
- * 메시지 전송 버튼
- */
-    // 엔터
-    const sendEnter = (e) => {
-        e.preventDefault();
-        if (window.event.keyCode == 13) {
-            console.log("들어오냐?")
-            // 메시지 보내기
-            sendMessage(inputMessage);
-        }
-    }
-    // 버튼 
-    const sendBtn = (e) => {
-        e.preventDefault();
-        sendMessage(inputMessage);
-    }
 
 /*
  * 메시지 전송 함수
