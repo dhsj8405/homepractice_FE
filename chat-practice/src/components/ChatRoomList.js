@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ChatRoomList = ({chatRoomList, onClickRoomEnter , setSelectChatRoom}) => {
+const ChatRoomList = ({chatRoomList, onClickRoomEnter }) => {
     
     // const onClickRoomEnter = (e,chatRoom) => {
     //     e.preventDefault();

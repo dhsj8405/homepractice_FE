@@ -139,7 +139,6 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
             //     header: {}
             // });  
         
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     }    
 
     // 메시지 전송 버튼
@@ -158,19 +157,12 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
         sendMessage(inputMessage);
     }
 
-
-
-
-
-
-
     return (
         <>
 
             <ChatContentsBox  
-                selectChatRoom = {selectChatRoom}
                 messageList={messageList}
-                getMessageList = {getMessageList}
+                loginUser = {loginUser}
             />
         
             <ChatInputBox

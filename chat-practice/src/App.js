@@ -1,16 +1,14 @@
-import axios from 'axios'
 // axios.defaults.withCredentials = true;
 import React, { useState, useEffect,useRef } from 'react';
 // import * as Stomp from "webstomp-client";
-import { Stomp } from '@stomp/stompjs';
+import axios from 'axios'
 
-// import { Stomp } from '@stomp/rx-stomp';
-import SockJS from 'sockjs-client';
+
 
 import { Input } from 'reactstrap';
 import styled from 'styled-components';
-import ChatRoomList from './components/ChatRoomList'
-import ChatRoom from './components/ChatRoom'
+import ChatRoomList from './components/ChatRoomList.js'
+import ChatRoom from './components/ChatRoom.js'
 
 const ChatBoxStyle = styled.div`
   width: 300px;
@@ -31,7 +29,6 @@ const App = () => {
     // const [ msg, setMsg] = useState('');
     // const [ receiveMsg, setReceiveMsg] = useState('');
     // const [enterStatus, setEnterStatus] = useState(false);
-    const [content, setContent]= useState('');
     // const [inputMessage, setInputMessage]= useState('');
     const [users, setUsers] = useState('');
     const [inviteChat, setInviteChat] = useState([]);
@@ -42,81 +39,10 @@ const App = () => {
     });
     const[chatRoomList, setChatRoomList] = useState([]);
     const[selectChatRoom, setSelectChatRoom] = useState();
-    const[messageList, setMessageList] = useState([]);
-
-
-    //1. SockJS를 내부에 들고있는 stomp를 내어줌
-    const stompClient = Stomp.over( () => {
-        return new SockJS('http://localhost:9099/stomp/connect')
-    });
-    // const sock = new SockJS('http://localhost:9099/stomp/connect');
-    // const stompClient = Stomp.over(sock);
-
     
-    
-    // // 메시지 입력 핸들러
-    // const inputMessageHandler = (e) => {
-    //     e.preventDefault();
-    //     setInputMessage(e.target.value);
-    // }; 
-    // // 메시지 엔터키 이벤트
-    // function enterkey(e) {
-    //     e.preventDefault();
-    //     if (window.event.keyCode == 13) {
-    //         console.log("들어오냐?")
-    //         // 메시지 보내기
-    //         sandMessage(inputMessage);
-    //     }
-    // }
-    //  // 메시지 전송 함수
-    //  var sandMessage = (msg) => {
-    //     // stompClient.send('/app/chat/message', {}, JSON.stringify({ chatRoomNo: 1, msg: msg, send_user_no: 1 }));
-        
-    //     if(stompClient.disconnect){
-    //         // connect 돼있으면 알아서 Already ACTIVE, ignoring request to activate 라고 말해주면서 연결안하고 넘어감 
-    //         // 연결이 끊기기전(메시지 빠르게연속으로보낼때)에 보내면 메시지 전송안되기때문에 밑에 else로 연결돼있을때도 메시지 보낼 수 있어야함
-    //         stompClient.connect({}, ()=>{
-    //             stompClient.publish({
-    //                 destination: '/app/chat/message',
-    //                 body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, chatRoomNo: 1,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 }),
-    //                 header: {}
-    //             });
-    //         })
-    //     }else{
-    //         stompClient.publish({
-    //             destination: '/app/chat/message',
-    //             body: JSON.stringify({ chatMsgNo: 1, message: inputMessage, chatRoomNo: 1, sendUserNo: loginUser.id === "aaaa" ? 1 : 2  }),
-    //             header: {}
-    //         });
-    //     }
-    //     getMessageList();
-    // }
-    
-    // 소켓연결
-    var socketConn = () => {
-        // setEnterStatus(true);
-        
-        //2. 소켓연결
-        stompClient.connect({}, function(frame){
-            console.log("Connected: "+frame); 
-            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-            stompClient.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
-                console.log(chat.body)
-                var content = JSON.parse(chat.body);
-                console.log(content.message);
-                setContent(content.message)
-            })
-            
-		stompClient.heartbeat.outgoing = 0;
-		stompClient.heartbeat.incoming = 0;
-        console.log("+++++++++++++++++++++++++++++++++++++++++++++++");
-            //3. send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
-            stompClient.send('/app/chat/enter',{},JSON.stringify({messageNo: 1, message: "", chatRoomNo: selectChatRoom.no}));
-            // stompClient.activate();
-        
-        })
+    const [isOpenChatRoom, setIsOpenChatRoom] = useState(false);
 
-    }
+
 
     // 첫 렌더링에만 호출하기(매개변수로 빈배열)
     useEffect(() =>{
@@ -130,6 +56,42 @@ const App = () => {
     },[]);
 
 
+
+/*
+ *  채팅관련 
+ */
+    // 아이디에 해당되는 채팅방 리스트 가져옴
+    const getChatRoomList = () => {
+        if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
+            axios({
+                url: 'http://localhost:9099/chat/chatRoomList',
+                method: 'post',
+                data: loginUser
+            }).then((res)=> {
+                
+                console.log(res.data.list);
+                setChatRoomList(res.data.list);
+            })
+        }else{
+            console.log("채팅방없음")
+        }
+    }
+    // 채팅방 클릭 핸들러
+    const onClickRoomEnter = (e,chatRoom) => {
+        e.preventDefault();
+        console.log(chatRoom);
+        setSelectChatRoom(chatRoom);
+        setIsOpenChatRoom(true);
+        // 채팅방 들어왔으니 소켓 연결하기
+    }
+//===============================================================================================
+
+
+/*
+ * 초대할 친구 선택후 방만들기 ( 구현중)
+ */
+
+    // 유저목록 클릭 핸들러
     const onClickUserName = (user,e) => {
         // console.log(e.target)
         // console.log(user)
@@ -143,7 +105,7 @@ const App = () => {
         console.log("zz")
     }
     
-    // 초대버튼
+    // 초대버튼 핸들러
     const onClickInvite = (e,user) => {
         console.log(user)
         axios({
@@ -178,87 +140,29 @@ const App = () => {
 
     //     })
     // }
+//===============================================================================================
 
-    
+/*
+ *  아이디 비번 입력 
+ */
+
+    //아이디 입력 핸들러
     const onChangeInputId = (e) => {
         setLoginUser( Object.assign({}, loginUser, { id: e.target.value }))
     };
-
+    //비밀번호 입력 핸들러
     const onChangeInputPwd = (e) => {
         setLoginUser( Object.assign({}, loginUser, { pwd: e.target.value }))
     }
-    // 가라아이디비번으로 룸번호 가져오기
+     
+    // 로그인 버튼 핸들러
     const onClickLogin = (e,user) => {
         e.preventDefault();
+        //채팅방리스트 가져오기
         getChatRoomList();
-        // getMessageList();
-        // if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
-        //     axios({
-        //         url: 'http://localhost:9099/chat/msgList',
-        //         method: 'GET'
-        //     }).then((res)=> {
-        //         console.log(res.data.list[0].message);
-        //         console.log(res.data.list);
-        //         setMessageList(res.data.list);
-
-        //         // setCreateChatRoomNO(res.data);
-        //         // openChatRoom(res.data);
-        //     })
-        // }else{
-        //     console.log("메시지리스트없음")
-        // }
 
     }
-    // 아이디에 해당되는 채팅방 가져옴
-    const getChatRoomList = () => {
-        if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
-            axios({
-                url: 'http://localhost:9099/chat/chatRoomList',
-                method: 'post',
-                data: loginUser
-            }).then((res)=> {
-                
-                console.log(res.data.list);
-                setChatRoomList(res.data.list);
-            })
-        }else{
-            console.log("채팅방없음")
-        }
-    }
-
-    // 채팅방 클릭
-    const onClickRoomEnter = (e,chatRoom) => {
-        e.preventDefault();
-        console.log(chatRoom);
-        setSelectChatRoom(chatRoom);
-        // 채팅방 들어왔으니 소켓 연결하기
-    }
-    // 채팅방 클릭이 됐을때(즉, 상태값에 클릭된 정보가 입력됐을때) 메시지리스트가져오기
-    useEffect(() =>{
-        if(selectChatRoom != undefined){
-        socketConn();
-        getMessageList(selectChatRoom);}
-    },[selectChatRoom]);
-
-
-    // 채팅방안 메시지 리스트 가져오기
-    const getMessageList = (chatRoom) => {
-        if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
-            axios({
-                url: `http://localhost:9099/chat/msgList/${chatRoom.no}`,
-                method: 'GET'
-            }).then((res)=> {
-                console.log(res.data.list[0].message);
-                console.log(res.data.list);
-                setMessageList(res.data.list);
-                
-                // setCreateChatRoomNO(res.data);
-                // openChatRoom(res.data);
-            })
-        }else{
-            console.log("메시지리스트없음")
-        }
-    } 
+//===============================================================================================
 
 
     return (
@@ -311,32 +215,16 @@ const App = () => {
         
         <br/><br/>
         <div>
+
+    {isOpenChatRoom 
+    ? 
         <ChatRoom
-            selectChatRoom = {selectChatRoom}
-            messageList = {messageList}
-            stompClient = {stompClient}
-            loginUser = {loginUser}
-            getMessageList = {getMessageList} 
+        selectChatRoom = {selectChatRoom}
+        loginUser = {loginUser}
         />
-
-        
-        {/* <ChatBoxStyle>
-        
-            {messageList && messageList.map((list)=>
-            <div>
-            <td>{list.message}</td><br/>
-            </div>
-        )}
-        </ChatBoxStyle>
-         */}
-        {/* <ChatInputStyle
-                
-                type="text"
-                value={inputMessage}
-                onChange={inputMessageHandler}
-                onKeyUp={(e) => enterkey(e)}
-        /> */}
-
+    :
+        <></>
+    }
         </div>
     </>
         
