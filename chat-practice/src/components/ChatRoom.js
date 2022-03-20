@@ -168,34 +168,34 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
 
     return (
         <>
+          
+                <>
+                    <ChatContentsBox  
+                        messageList={messageList}
+                        loginUser = {loginUser}
+                    />
+                
+                    <ChatInputBox
+                        // stompClient={stompClient}
+                        // loginUser = {loginUser}
+                        // selectChatRoom = {selectChatRoom}
+                        // sendMessage = {sendMessage}
+                        setInputMessage = {setInputMessage}
+                        inputMessage ={inputMessage }
 
-            <ChatContentsBox  
-                messageList={messageList}
-                loginUser = {loginUser}
-            />
-        
-            <ChatInputBox
-                // stompClient={stompClient}
-                // loginUser = {loginUser}
-                // selectChatRoom = {selectChatRoom}
-                // sendMessage = {sendMessage}
-                setInputMessage = {setInputMessage}
-                inputMessage ={inputMessage }
-
-                sendBtn = {sendBtn}
-                sendEnter = {sendEnter}
-            />
-            
-
-
-            {/* <ChatInputStyle        
-                type="text"
-                value={inputMessage}
-                onChange={inputMessageHandler}
-                onKeyUp={(e) => sendEnter(e)}
-            />
-            <button onClick={(e) => sendBtn(e)}>전송</button> */}
-
+                        sendBtn = {sendBtn}
+                        sendEnter = {sendEnter}
+                    />
+                    
+                    {/* <ChatInputStyle        
+                        type="text"
+                        value={inputMessage}
+                        onChange={inputMessageHandler}
+                        onKeyUp={(e) => sendEnter(e)}
+                    />
+                    <button onClick={(e) => sendBtn(e)}>전송</button> */}
+                </>
+         
         </>
     );
 }
