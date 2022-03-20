@@ -17,13 +17,13 @@ StompJS 사용 채팅
 │   │   └── css  
 │   │       └── chatstyle.css  
 │   ├── components  
-│   │   └── Chat  
-│   │       ├── Friends  
-│   │       ├── ChatRoomList  
-│   │       ├── ChatInvite  
-│   │       └── ChatRoom  
-│   │           ├── ChatInputBox  
-│   │           └── ChatContentsBox  
+│   │   └── Chat.js  
+│   │       ├── Friends.js  
+│   │       ├── ChatRoomList.js  
+│   │       ├── ChatInvite.js  
+│   │       └── ChatRoom.js  
+│   │           ├── ChatInputBox.js  
+│   │           └── ChatContentsBox.js  
 │   ├── App.js  
 │   └── index.js  
 ├── package-lock.json  
