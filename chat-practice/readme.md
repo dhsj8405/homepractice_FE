@@ -1,6 +1,9 @@
-# React , SpringBoot
+# Chat Application
 
-StompJS + sockJS 사용 채팅
+`Front-end` React  
+`Back-end` Spring Boot   
+`Database` MariaDB  
+`메시징 프로토콜` StompJS(+SockJs)
 
 ## 기능  
 로그인,사람목록,채팅초대,채팅
