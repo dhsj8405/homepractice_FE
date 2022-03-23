@@ -38,7 +38,7 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
     const stompClient = useRef(
         Stomp.over( () => {
             return new SockJS('http://localhost:9099/stomp/connect')
-        })
+        }) 
     );
     
     // const stompClient = Stomp.over( () => {
