@@ -87,7 +87,7 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
     },[])
 
 /*
- *  채팅방
+ *  채팅방 
  */
 
     // 클릭된 채팅방의 메시지 리스트 가져오기 : ( 상태값(클릭된 채팅방)이 변경 되었을 때)
