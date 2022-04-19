@@ -53,7 +53,7 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
 /*
  * 소켓 
  */
-
+ 
    // 소켓연결
    const socketConn = () => {
     // setEnterStatus(true);
