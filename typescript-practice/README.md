@@ -120,4 +120,6 @@ VSCode에는 편집기 또는 특정 작업 영역(프로젝트)에 대해 자�
 ## 04 
  - interface (+ 접근 제어자)
 ## 05 
- - 일반 객체를 interface 로 타입 설정
+ - 일반 객체를 interface 로 타입 설정 (+ interface extends interface)
+## 06
+ - Type Alias
