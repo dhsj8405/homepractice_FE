@@ -10,4 +10,6 @@
 
 - redux-practice
 
+- typescript-practice
+
 - webpack-practice
