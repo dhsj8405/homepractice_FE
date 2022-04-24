@@ -71,7 +71,7 @@ VSCode에는 편집기 또는 특정 작업 영역(프로젝트)에 대해 자�
         ```
         `일반적으로 타입스크리트를 사용하는 프로젝트들은 로컬로 설치한 typescript 패키지를 사용해서 컴파일함`
         ```
-        yarn add typescrip
+        yarn add typescript
         ```
         또는
         ```
