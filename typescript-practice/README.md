@@ -111,10 +111,10 @@ VSCode에는 편집기 또는 특정 작업 영역(프로젝트)에 대해 자�
 
 
 # practice
-## 01 타입스크립트 기본 예제
-## 02 기본 타입 지정하기
-## 03 함수에서 타입 지정하기
-## 04 interface (+ 접근 제어자)
-## 05 일반 객체를 interface 로 타입 설정 (+ interface extends interface)
-## 06 Type Alias
-## 07 Generics(제네릭)[제네릭학습](https://github.com/dhsj8405/homepractice_FE/blob/main/typescript-practice/src/practice07.ts)
+## 01 [타입스크립트 기본 예제](https://github.com/dhsj8405/homepractice_FE/blob/main/typescript-practice/src/practice01.ts)
+## 02 [기본 타입 지정하기](https://github.com/dhsj8405/homepractice_FE/blob/main/typescript-practice/src/practice02.ts)
+## 03 [함수에서 타입 지정하기](https://github.com/dhsj8405/homepractice_FE/blob/main/typescript-practice/src/practice03.ts)
+## 04 [interface (+ 접근 제어자)](https://github.com/dhsj8405/homepractice_FE/blob/main/typescript-practice/src/practice04.ts)
+## 05 [일반 객체를 interface 로 타입 설정 (+ interface extends interface)](https://github.com/dhsj8405/homepractice_FE/blob/main/typescript-practice/src/practice05.ts)
+## 06 [Type Alias](https://github.com/dhsj8405/homepractice_FE/blob/main/typescript-practice/src/practice06.ts)
+## 07 [Generics(제네릭)](https://github.com/dhsj8405/homepractice_FE/blob/main/typescript-practice/src/practice07.ts)
