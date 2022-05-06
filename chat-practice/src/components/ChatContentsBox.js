@@ -87,6 +87,8 @@ const ChatContentsBox = ({messageList,loginUser}) => {
     //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
     // }
     // downScroll();
+    console.log(messageList)
+
     return (
         
         <ChatWrap>

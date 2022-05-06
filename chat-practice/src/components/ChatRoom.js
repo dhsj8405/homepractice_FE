@@ -65,17 +65,18 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
             console.log("Connected: "+frame); 
 
             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-            stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
-                console.log(chat.body)
-                var content = JSON.parse(chat.body);
-                console.log(content.message);
-                setContent(content.message)
-                getMessageList(selectChatRoom);
-            });
-            console.log("+++++++++++++++++++++++++++++++++++++++++++++++");
+            // stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
+            //     console.log(chat.body)
+            //     var content = JSON.parse(chat.body);
+            //     console.log(content.message);
+            //     setContent(content.message)
+            //     getMessageList(selectChatRoom);
+            //     // setMessageList([...messageList, content.message]);
+            // });
+
             //3. send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
-            stompClient.current.send('/app/chat/enter',{},JSON.stringify({messageNo: 1, message: "", chatRoomNo: selectChatRoom.no}));
-            // stompClient.activate();
+            // stompClient.current.send('/app/chat/enter',{},JSON.stringify({messageNo: 1, message: "", chatRoomNo: selectChatRoom.no}));
+            
         
         });
     
@@ -105,8 +106,8 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
                 url: `http://localhost:9099/chat/msgList/${chatRoom.no}`,
                 method: 'GET'
             }).then((res)=> {
-                console.log(res.data.list[0].message);
-                console.log(res.data.list);
+                // console.log(res.data.list[0].message);
+                // console.log(res.data.list);
                 setMessageList(res.data.list);
                 
                 // setCreateChatRoomNO(res.data);
@@ -128,17 +129,27 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
 
     // 메세지 전송
     const sendMessage = (msg) => {
-        console.log(stompClient.current)
-        console.log("2++@@@@@@@@++2")
         setInputMessage("");    //메시지 보낼때 인풋박스 비우기
         
-            stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 }));
+            stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 } ));
+            
             // stompClient.publish({
             //     destination: '/app/chat/message',
             //     body: JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 }),
             //     header: {}
             // });  
-        
+            stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
+                console.log(chat.body)
+                var content = JSON.parse(chat.body);
+                console.log(content.message);
+                setContent(content.message);
+                console.log(messageList)
+                setMessageList([...messageList, content]);
+                console.log(messageList)
+                // getMessageList(selectChatRoom);
+                
+    
+            });
     }    
 
     // 메시지 전송 버튼
@@ -146,7 +157,6 @@ const ChatRoom = ({selectChatRoom, loginUser}) => {
     const sendEnter = (e) => {
         e.preventDefault();
         if (window.event.keyCode == 13) {
-            console.log("들어오냐?")
             // 메시지 보내기
             if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
 

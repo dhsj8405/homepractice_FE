@@ -29,6 +29,7 @@ module.exports = (env) => {
     module:{
         rules: [{
             test: /\.js$/i,      
+            // test: /\.(js|jsx)$/,      에러수정중
             exclude: /node_modules/, //정규표현식 //트랜스파일링(코드변환)하는데 node_modules라이브러리들은 빼라 
             loader: 'babel-loader',
             options: {
@@ -45,7 +46,8 @@ module.exports = (env) => {
                     'style-loader', 
                     // 'css-loader',
                     {loader: 'css-loader', options: {modules: true}},
-                    'sass-loader'] //use 배열안에 여러 로더를 설정할 경우 로더의 실행 순서는 오른쪽에서 왼쪽순으로 실행
+                    // 'sass-loader'
+                ] //use 배열안에 여러 로더를 설정할 경우 로더의 실행 순서는 오른쪽에서 왼쪽순으로 실행
         },{
             test: /\.(png|gif|jpe?g|svg|ico|tiff?|bmp)$/i,         //$ :끝        e?g e가없어도됨 
             type: 'asset/resource'
