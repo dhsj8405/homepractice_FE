@@ -44,6 +44,7 @@ npm manifest:
       "@babel/cli": "^7.17.10",
       "@babel/core": "^7.17.10",
       "@babel/plugin-proposal-class-properties": "^7.16.7",
+      "@babel/plugin-transform-runtime": "^7.17.10",
       "@babel/preset-env": "^7.17.10",
       "@babel/preset-react": "^7.16.7",
       "babel-loader": "^8.2.5",
@@ -56,6 +57,7 @@ npm manifest:
       "webpack-dev-server": "^4.8.1"
     },
     "dependencies": {
+      "@babel/runtime": "^7.17.9",
       "@stomp/stompjs": "^6.1.2",
       "axios": "^0.27.2",
       "react": "^17.0.2",
@@ -900,6 +902,18 @@ Lockfile:
     dependencies:
       "@babel/helper-plugin-utils" "^7.16.7"
   
+  "@babel/plugin-transform-runtime@^7.17.10":
+    version "7.17.10"
+    resolved "https://registry.yarnpkg.com/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.17.10.tgz#b89d821c55d61b5e3d3c3d1d636d8d5a81040ae1"
+    integrity sha512-6jrMilUAJhktTr56kACL8LnWC5hx3Lf27BS0R0DSyW/OoJfb/iTHeE96V3b1dgKG3FSFdd/0culnYWMkjcKCig==
+    dependencies:
+      "@babel/helper-module-imports" "^7.16.7"
+      "@babel/helper-plugin-utils" "^7.16.7"
+      babel-plugin-polyfill-corejs2 "^0.3.0"
+      babel-plugin-polyfill-corejs3 "^0.5.0"
+      babel-plugin-polyfill-regenerator "^0.3.0"
+      semver "^6.3.0"
+  
   "@babel/plugin-transform-shorthand-properties@^7.16.7":
     version "7.16.7"
     resolved "https://registry.yarnpkg.com/@babel/plugin-transform-shorthand-properties/-/plugin-transform-shorthand-properties-7.16.7.tgz#e8549ae4afcf8382f711794c0c7b6b934c5fbd2a"
@@ -1058,6 +1072,13 @@ Lockfile:
     version "7.17.2"
     resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.2.tgz#66f68591605e59da47523c631416b18508779941"
     integrity sha512-hzeyJyMA1YGdJTuWU0e/j4wKXrU4OMFvY2MSlaI9B7VQb0r5cxTE3EAIS2Q7Tn2RIcDkRvTA/v2JsAEhxe99uw==
+    dependencies:
+      regenerator-runtime "^0.13.4"
+  
+  "@babel/runtime@^7.17.9":
+    version "7.17.9"
+    resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.9.tgz#d19fbf802d01a8cb6cf053a64e472d42c434ba72"
+    integrity sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg==
     dependencies:
       regenerator-runtime "^0.13.4"
   

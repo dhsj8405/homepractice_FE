@@ -78,7 +78,7 @@ color: #555;
 text-align: left;
 `;
 
-const ChatContentsBox = ({messageList,loginUser}) => {
+const ChatContentsBox = ({messageList,loginUser,selectChatRoomName}) => {
     
     // const scrollRef = useRef();
     // const downScroll = () =>{
@@ -87,14 +87,13 @@ const ChatContentsBox = ({messageList,loginUser}) => {
     //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
     // }
     // downScroll();
-    console.log(messageList)
 
     return (
         
         <ChatWrap>
             <ChatHeader>
             
-                채팅
+                {selectChatRoomName}
             
             </ChatHeader>
            

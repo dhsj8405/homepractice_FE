@@ -8,6 +8,8 @@ const Chat = ({users,loginUser,chatRoomList}) => {
     const [isOpenChatRoom, setIsOpenChatRoom] = useState(false);
     const[selectChatRoom, setSelectChatRoom] = useState();
     const [inviteList, setInviteList] = useState([]);
+    //채팅방 변경 감지위한 상태
+    const [changeChatRoom, setChangeChatRoom] = useState(false);
 
     /*
  *  채팅관련 
@@ -47,6 +49,8 @@ const Chat = ({users,loginUser,chatRoomList}) => {
                 chatRoomList = {chatRoomList}
                 setSelectChatRoom = {setSelectChatRoom}
                 setIsOpenChatRoom = {setIsOpenChatRoom}
+                changeChatRoom = {changeChatRoom}
+                setChangeChatRoom = {setChangeChatRoom}
             />
 
             <ChatInvite
@@ -59,6 +63,7 @@ const Chat = ({users,loginUser,chatRoomList}) => {
                 <ChatRoom
                     selectChatRoom = {selectChatRoom}
                     loginUser = {loginUser}
+                    changeChatRoom = {changeChatRoom}
                 />
             :
                 <></>

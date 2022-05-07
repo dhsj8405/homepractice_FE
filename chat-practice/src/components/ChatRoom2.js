@@ -18,7 +18,7 @@ width: 300px;
 padding: 9px 9px 0px 9px ;
 height: 30px;
 `;
-const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
+const ChatRoom = ({selectChatRoom, loginUser}) => {
 
     const [content, setContent]= useState('');
     const[messageList, setMessageList] = useState([]);
@@ -53,19 +53,14 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
 /*
  * 소켓 
  */  
-    // 연결된 소켓 해제 : 해제속도가 그리 빠르지 않아서 async await로 동기적으로 실행해야함
-   const socketConn = async () => {
-    console.log("또 들어오냐 ????")
-    
-            console.log("d?????")
-            await stompClient.current.deactivate();
-        
-        
-         //2. 소켓연결
+ 
+   // 소켓연결
+   const socketConn = () => {
+    // setEnterStatus(true);
+        //2. 소켓연결
         // useRef 변수는 .current로 접근할 수 있다
         stompClient.current.connect({},function(frame){
             console.log(stompClient.current)
-
 
             console.log("Connected: "+frame); 
 
@@ -73,35 +68,29 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
             stompClient.current.send('/app/chat/enter',{},JSON.stringify({messageNo: 1, message: "", chatRoomNo: selectChatRoom.no}));
             
             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-            // stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
-            //     console.log(chat.body)
-            //     var content = JSON.parse(chat.body);
-            //     console.log(content.message);
-            //     setContent(content.message)
-            //     getMessageList(selectChatRoom);
+            stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
+                console.log(chat.body)
+                var content = JSON.parse(chat.body);
+                console.log(content.message);
+                setContent(content.message)
+                getMessageList(selectChatRoom);
                 // setMessageList([...messageList, content.message]);
-            // });
+
+    
+
+
+            });
 
          
         
         });
     
-       
-    
     }
-    // const socketDisConn = async () => {
-    //     if(stompClient.current !== null){
-    //         console.log("d?????")
-    //         await stompClient.current.deactivate();
-    //     }        
-    // }
 
     // 소켓연결은 한번만!!! useEffect 두번째 매개변수로 빈배열을 넣어주면 최초 랜더링시에만 실행
     useEffect(() =>{
-        // socketDisConn();
         socketConn();
-        console.log("소켓연결 왜 안들어옴 ?")
-    },[changeChatRoom])
+    },[])
 
 /*
  *  채팅방 
@@ -147,22 +136,23 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
     const sendMessage = (msg) => {
         setInputMessage("");    //메시지 보낼때 인풋박스 비우기
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        console.log(selectChatRoom)
             stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 ,sendUserId : loginUser.id} ));
             // stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 , sendUserId: loginUser.id} ));
             
             
-            stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
-                console.log("2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                // console.log(chat.body)
-                var content = JSON.parse(chat.body);
-                console.log(content.message);
-                // setContent(content.message);
-                // console.log(messageList)
-                setMessageList([...messageList, content]);
-                // console.log(messageList)
-                // getMessageList(selectChatRoom);
-            });
+            // stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
+            //     console.log("2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            //     console.log(chat.body)
+            //     var content = JSON.parse(chat.body);
+            //     console.log(content.message);
+            //     setContent(content.message);
+            //     console.log(messageList)
+            //     setMessageList([...messageList, content]);
+            //     console.log(messageList)
+            //     // getMessageList(selectChatRoom);
+                
+    
+            // });
     }    
 
     // 메시지 전송 버튼
@@ -196,7 +186,6 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
                     <ChatContentsBox  
                         messageList={messageList}
                         loginUser = {loginUser}
-                        selectChatRoomName = {selectChatRoom.name}
                     />
                 
                     <ChatInputBox
