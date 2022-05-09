@@ -95,6 +95,9 @@ chat-practice
 │   │       └── ChatRoom.js  
 │   │           ├── ChatInputBox.js  
 │   │           └── ChatContentsBox.js  
+│   ├── module
+│   │   ├── chatInputReducer.js
+│   │   └── rootReducer.js
 │   ├── App.js  
 │   └── index.js  
 ├── package-lock.json  

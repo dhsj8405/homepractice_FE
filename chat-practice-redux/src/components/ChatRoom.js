@@ -23,7 +23,6 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
 
     const [content, setContent]= useState('');
     const[messageList, setMessageList] = useState([]);
-    // const [inputMessage, setInputMessage]= useState("");
     const inputMessage = useSelector(state => state.chatInputReducer.inputData.content);
 /*
  *  클라이언트 객체 생성 
@@ -60,7 +59,7 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
    const socketConn = async () => {
     console.log("socketConn")
 
-            await stompClient.current.deactivate();
+        await stompClient.current.deactivate();
         
         
          //2. 소켓연결
@@ -70,33 +69,14 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
 
 
             console.log("Connected: "+frame); 
-
-            // 3. send(path, header, message)로 메세지를 보낼 수 있음 / *채팅방에 참여 
+            // 3. send(path, header, message)로 메세지를 보낼 수 있음 
+            // 선택된 방 번호 채팅방 참여
             stompClient.current.send('/app/chat/enter',{},JSON.stringify({messageNo: 1, message: "", chatRoomNo: selectChatRoom.no}));
-            
-            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-            // stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
-            //     console.log(chat.body)
-            //     var content = JSON.parse(chat.body);
-            //     console.log(content.message);
-            //     setContent(content.message)
-            //     getMessageList(selectChatRoom);
-                // setMessageList([...messageList, content.message]);
-            // });
-
-         
         
         });
     
-       
-    
     }
-    // const socketDisConn = async () => {
-    //     if(stompClient.current !== null){
-    //         console.log("d?????")
-    //         await stompClient.current.deactivate();
-    //     }        
-    // }
+
 
     // 소켓연결은 한번만!!! useEffect 두번째 매개변수로 빈배열을 넣어주면 최초 랜더링시에만 실행
     useEffect(() =>{
@@ -138,35 +118,7 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
 /*
  * 메시지 
  */
-    // 메시지 입력 핸들러
-    // const inputMessageHandler = (e) => {
-    //     e.preventDefault();
-    //     setInputMessage(e.target.value);
-    // }; 
-
-    // 메세지 전송
-    // const sendMessage = (msg) => {
-    //     setInputMessage("");    //메시지 보낼때 인풋박스 비우기
-    //     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    //     console.log(selectChatRoom)
-    //         stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 ,sendUserId : loginUser.id} ));
-    //         // stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 , sendUserId: loginUser.id} ));
-            
-            
-    //         stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
-    //             console.log("2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    //             // console.log(chat.body)
-    //             var content = JSON.parse(chat.body);
-    //             console.log(content.message);
-    //             // setContent(content.message);
-    //             // console.log(messageList)
-    //             setMessageList([...messageList, content]);
-    //             // console.log(messageList)
-    //             // getMessageList(selectChatRoom);
-    //         });
-    // }    
     useEffect(()=>{
-        
         console.log(inputMessage); 
         if(inputMessage !== ''){
             sendMessage(inputMessage);
@@ -174,47 +126,21 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
     },[inputMessage]);
 
     const sendMessage = (msg) => {
-        console.log(msg)
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
         console.log(selectChatRoom)
             stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 ,sendUserId : loginUser.id} ));
-            // stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 , sendUserId: loginUser.id} ));
             stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
                 console.log("2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                // console.log(chat.body)
-                var content = JSON.parse(chat.body);
-                console.log(content.message);
+                var content = JSON.parse(chat.body);    
+                console.log(content);
                 // setContent(content.message);
-                // console.log(messageList)
+                console.log(messageList)
+                // setMessageList(Object.assign({},messageList,content));
                 setMessageList([...messageList, content]);
-                // console.log(messageList)
+                console.log(messageList)
                 // getMessageList(selectChatRoom);
             });
     }    
-
-    // 메시지 전송 버튼
-    //1. 엔터
-    // const sendEnter = (e) => {
-    //     e.preventDefault();
-    //     if (window.event.keyCode == 13) {
-    //         // 메시지 보내기
-    //         if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
-
-    //         }else{
-    //             sendMessage(inputMessage);
-    //         }
-    //     }
-    // }
-    // //2. 버튼 
-    // const sendBtn = (e) => {
-    //     e.preventDefault();
-    //     if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
-
-    //     }else{
-    //         sendMessage(inputMessage);
-    //     }
-        
-    // }
 
     return (
         <>
@@ -224,26 +150,7 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
                         loginUser = {loginUser}
                         selectChatRoomName = {selectChatRoom.name}
                     />
-                
-                    <ChatInputBox
-                        // stompClient={stompClient}
-                        // loginUser = {loginUser}
-                        // selectChatRoom = {selectChatRoom}
-                        // sendMessage = {sendMessage}
-                        // setInputMessage = {setInputMessage}
-                        // inputMessage ={inputMessage }
-
-                        // sendBtn = {sendBtn}
-                        // sendEnter = {sendEnter}
-                    />
-                    
-                    {/* <ChatInputStyle        
-                        type="text"
-                        value={inputMessage}
-                        onChange={inputMessageHandler}
-                        onKeyUp={(e) => sendEnter(e)}
-                    />
-                    <button onClick={(e) => sendBtn(e)}>전송</button> */}
+                    <ChatInputBox/>
                     
                 </>
          
