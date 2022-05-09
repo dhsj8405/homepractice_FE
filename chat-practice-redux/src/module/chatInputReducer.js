@@ -1,7 +1,7 @@
 // Action Type
 const _SAVE = 'DATA_SAVE';
 
-// 액션 생성함수 만들기
+// 액션 생성함수
 // dispatch로 보낼 Action 객체 정의
 export const saveChatMessage = (saveData) => (
     console.log('saveData :: ', saveData),
@@ -20,9 +20,12 @@ const initialState = {
 }
  
 // Reducer
-export default function chatReducer(state = initialState, action) {
-    console.log(state.inputData)
-    console.log(action)
+const chatInputReducer = (state = initialState, action) => {
+// export default function chatInputReducer(state = initialState, action) {
+    console.log('리듀서 파라미터 초기값 :',state.inputData.content);
+    console.log('리듀서 파라미터 액션타입',action.type);
+    console.log('리듀서 파라미터 액션 값',action.inputData);
+    
     switch(action.type) {
         case _SAVE:
             return Object.assign({}, state, {
@@ -34,3 +37,4 @@ export default function chatReducer(state = initialState, action) {
             return state;
     }
 }
+export default chatInputReducer;

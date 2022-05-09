@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 //함수를 임포트할땐 { } 감싸줘야 작동함!!
-import {saveChatMessage} from '../module/chatReducer';
+import {saveChatMessage} from '../module/chatInputReducer';
 
 const ChatBoxStyle = styled.div`
 width: 330px;
@@ -33,7 +33,7 @@ cursor: pointer;
 `;
 
 
-const ChatInputBox = ({sendEnter }) => {
+const ChatInputBox = () => {
     // const [inputMessage, setInputMessage]= useState("");
      
     const [inputMessage, setInputMessage] = useState('');
@@ -45,9 +45,35 @@ const ChatInputBox = ({sendEnter }) => {
         e.preventDefault();
         setInputMessage(e.target.value);
     }; 
-    const sendBtn = () =>{
-        dispatch(saveChatMessage(inputMessage))
+    const sendBtn = (e) =>{
+        e.preventDefault();
+        if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
+
+        }else{
+            dispatch(saveChatMessage(inputMessage));
+            // sendMessage(inputMessage);
+        }
+
+        setInputMessage('');
     }
+
+    // 메시지 전송 버튼
+    //1. 엔터
+    const sendEnter = (e) => {
+        e.preventDefault();
+        if (window.event.keyCode == 13) {
+            // 메시지 보내기
+            if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
+
+            }else{
+                dispatch(saveChatMessage(inputMessage));
+                // sendMessage(inputMessage);
+            }
+            setInputMessage('');
+        }
+    }
+    //2. 버튼 
+
     
     return (
 

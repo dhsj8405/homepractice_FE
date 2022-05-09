@@ -7,40 +7,43 @@
 `상태관리` Redux
 
 # 설치 및 추가해야햘것
-- package.json 생성
+- package.json 생성  
 `npm init -y`
-- package.json 수정
+- package.json 수정  
     ```
     "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx webpack serve --config config/webpack.config.js --progress --mode development"
   },
     ```
-- yarn 설치 
+- yarn 설치  
 `npm install -g yarn`
-- 웹팩 라이브러리,로더, 바벨로더 설정
+- 웹팩 라이브러리,로더, 바벨로더 설정  
 `yarn add -D webpack webpack-cli webpack-dev-server babel-loader style-loader css-loader sass-loader node-sass @babel/core @babel/cli @babel/cli @babel/preset-env @babel/preset-react`
-- react dom 사용
+- react dom 사용  
 `yarn add react react-dom`
-- axios 설치
+- axios 설치  
 `yarn add axios`
-- 스타일 컴포넌트 설치
+- 스타일 컴포넌트 설치  
 `yarn add styled-components`
-- stomp 모듈,sockjs 설치
+- stomp 모듈,sockjs 설치  
 `yarn add @stomp/stompjs sockjs-client`
-- reactstrap 설치
+- reactstrap 설치  
 `yarn add reactstrap`
-- babel 플러그인 추가하기( 레디스 연동시 에러해결때문에 )
-.config/babel.config.json
-```
- {
- "plugins": ["@babel/plugin-transform-runtime"]
- }
-```
-`yarn add @babel/plugin-transform-runtime`
-`yarn add @babel/runtime`
-- 리덕스 설치
+- babel 플러그인 추가하기( 레디스 연동시 에러해결때문에 )  
+    .config/babel.config.json
+    ```
+    {
+    "plugins": ["@babel/plugin-transform-runtime"]
+    }
+    ```
+    `yarn add @babel/plugin-transform-runtime`
+    `yarn add @babel/runtime`
+- 리덕스 설치  
 `yarn add redux react-redux`
+- redux-devtools-extension라이브러리(스토어 상태를 개발자 도구에서 조회가능하게하는 라이브러리)
+`yarn add redux-devtools-extension`  
+ [크롬에서 확장 프로그램 설치해야함](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
 
 ## 기능  
 로그인,사람목록,채팅초대,채팅

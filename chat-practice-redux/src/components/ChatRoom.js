@@ -6,6 +6,7 @@ import ChatInputBox from './ChatInputBox.js';
 import axios from 'axios'
 import styled from 'styled-components';
 
+import { useSelector } from 'react-redux';
 
 //stomp
 import SockJS from 'sockjs-client';
@@ -22,8 +23,8 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
 
     const [content, setContent]= useState('');
     const[messageList, setMessageList] = useState([]);
-    const [inputMessage, setInputMessage]= useState("");
-
+    // const [inputMessage, setInputMessage]= useState("");
+    const inputMessage = useSelector(state => state.chatInputReducer.inputData.content);
 /*
  *  클라이언트 객체 생성 
  *  1. SockJS를 내부에 들고있는 stomp를 내어줌
@@ -53,11 +54,12 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
 /*
  * 소켓 
  */  
+
     // 연결된 소켓 해제 : 해제속도가 그리 빠르지 않아서 async await로 동기적으로 실행해야함
+    //  - 방 나가거나 바꿀 때 마다 소켓 끊어줬다가 다시 연결
    const socketConn = async () => {
-    console.log("또 들어오냐 ????")
-    
-            console.log("d?????")
+    console.log("socketConn")
+
             await stompClient.current.deactivate();
         
         
@@ -100,7 +102,6 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
     useEffect(() =>{
         // socketDisConn();
         socketConn();
-        console.log("소켓연결 왜 안들어옴 ?")
     },[changeChatRoom])
 
 /*
@@ -144,14 +145,40 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
     // }; 
 
     // 메세지 전송
+    // const sendMessage = (msg) => {
+    //     setInputMessage("");    //메시지 보낼때 인풋박스 비우기
+    //     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    //     console.log(selectChatRoom)
+    //         stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 ,sendUserId : loginUser.id} ));
+    //         // stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 , sendUserId: loginUser.id} ));
+            
+            
+    //         stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
+    //             console.log("2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    //             // console.log(chat.body)
+    //             var content = JSON.parse(chat.body);
+    //             console.log(content.message);
+    //             // setContent(content.message);
+    //             // console.log(messageList)
+    //             setMessageList([...messageList, content]);
+    //             // console.log(messageList)
+    //             // getMessageList(selectChatRoom);
+    //         });
+    // }    
+    useEffect(()=>{
+        
+        console.log(inputMessage); 
+        if(inputMessage !== ''){
+            sendMessage(inputMessage);
+        }
+    },[inputMessage]);
+
     const sendMessage = (msg) => {
-        setInputMessage("");    //메시지 보낼때 인풋박스 비우기
+        console.log(msg)
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.log(selectChatRoom)
             stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 ,sendUserId : loginUser.id} ));
             // stompClient.current.send('/app/chat/message', {}, JSON.stringify({ chatMsgNo: 1, message: msg, chatRoomNo: selectChatRoom.no,sendUserNo: loginUser.id === "aaaa" ? 1 : 2 , sendUserId: loginUser.id} ));
-            
-            
             stompClient.current.subscribe(`/topic/chat/room/${selectChatRoom.no}`,(chat)=>{
                 console.log("2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                 // console.log(chat.body)
@@ -167,31 +194,30 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
 
     // 메시지 전송 버튼
     //1. 엔터
-    const sendEnter = (e) => {
-        e.preventDefault();
-        if (window.event.keyCode == 13) {
-            // 메시지 보내기
-            if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
+    // const sendEnter = (e) => {
+    //     e.preventDefault();
+    //     if (window.event.keyCode == 13) {
+    //         // 메시지 보내기
+    //         if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
 
-            }else{
-                sendMessage(inputMessage);
-            }
-        }
-    }
-    //2. 버튼 
-    const sendBtn = (e) => {
-        e.preventDefault();
-        if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
+    //         }else{
+    //             sendMessage(inputMessage);
+    //         }
+    //     }
+    // }
+    // //2. 버튼 
+    // const sendBtn = (e) => {
+    //     e.preventDefault();
+    //     if(inputMessage == "" || inputMessage == null || inputMessage.trim() == ""){
 
-        }else{
-            sendMessage(inputMessage);
-        }
+    //     }else{
+    //         sendMessage(inputMessage);
+    //     }
         
-    }
+    // }
 
     return (
         <>
-          
                 <>
                     <ChatContentsBox  
                         messageList={messageList}
@@ -204,11 +230,11 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
                         // loginUser = {loginUser}
                         // selectChatRoom = {selectChatRoom}
                         // sendMessage = {sendMessage}
-                        setInputMessage = {setInputMessage}
-                        inputMessage ={inputMessage }
+                        // setInputMessage = {setInputMessage}
+                        // inputMessage ={inputMessage }
 
-                        sendBtn = {sendBtn}
-                        sendEnter = {sendEnter}
+                        // sendBtn = {sendBtn}
+                        // sendEnter = {sendEnter}
                     />
                     
                     {/* <ChatInputStyle        
@@ -218,6 +244,7 @@ const ChatRoom = ({selectChatRoom, loginUser, changeChatRoom}) => {
                         onKeyUp={(e) => sendEnter(e)}
                     />
                     <button onClick={(e) => sendBtn(e)}>전송</button> */}
+                    
                 </>
          
         </>
