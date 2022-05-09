@@ -5,7 +5,7 @@
 
 - 채팅 토이프로젝트  
   1.[chat-practice](https://github.com/dhsj8405/homepractice_FE/tree/main/chat-practice) : 채팅  
-  2.[chat-practice-redux](https://github.com/dhsj8405/homepractice_FE/tree/main/chat-practice-redux) : 채팅( 리덕스 적용)  
+  2.[chat-practice-redux](https://github.com/dhsj8405/homepractice_FE/tree/main/chat-practice-redux) : 채팅(Redux 적용)  
   - back-end 
     1. [hompractice_BE 의 chat](https://github.com/dhsj8405/homepractice_BE/tree/main/chat) : stomp 활용한 기본 채팅(기본브로커)  
     2. [hompractice_BE 의 chatRedis](https://github.com/dhsj8405/homepractice_BE/tree/main/chatRedis): stomp + Redis  
