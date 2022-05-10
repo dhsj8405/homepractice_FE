@@ -78,7 +78,7 @@ color: #555;
 text-align: left;
 `;
 
-const ChatContentsBox = ({messageList,loginUser,selectChatRoomName}) => {
+const ChatContentsBox = ({messageList,userInfo,selectChatRoomName}) => {
     
     // const scrollRef = useRef();
     // const downScroll = () =>{
@@ -101,7 +101,7 @@ const ChatContentsBox = ({messageList,loginUser,selectChatRoomName}) => {
                 <ChatLi>
                     {messageList && messageList.map((list)=>
                             <>
-                                {loginUser.id == list.sendUserId
+                                {userInfo.id == list.sendUserId
                                     ? 
                                         <ChatLiRight>
                                             <Rightmsg>

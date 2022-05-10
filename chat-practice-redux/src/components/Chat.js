@@ -4,7 +4,7 @@ import ChatRoom from './ChatRoom.js'
 import ChatInvite from './ChatInvite.js'
 import Friends from './Friends.js'
 
-const Chat = ({users,loginUser,chatRoomList}) => {
+const Chat = ({users,userInfo,chatRoomList}) => {
     const [isOpenChatRoom, setIsOpenChatRoom] = useState(false);
     const[selectChatRoom, setSelectChatRoom] = useState();
     const [inviteList, setInviteList] = useState([]);
@@ -62,7 +62,7 @@ const Chat = ({users,loginUser,chatRoomList}) => {
             ?
                 <ChatRoom
                     selectChatRoom = {selectChatRoom}
-                    loginUser = {loginUser}
+                    userInfo = {userInfo}
                     changeChatRoom = {changeChatRoom}
                 />
             :

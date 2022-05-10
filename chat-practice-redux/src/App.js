@@ -37,6 +37,12 @@ const App = () => {
         id: "",
         pwd: "",
     });
+    const [userInfo, setUserInfo] = useState({
+        id: "",
+        pwd: "",
+        name: "",
+
+    });
     
     
     
@@ -75,6 +81,8 @@ const App = () => {
         e.preventDefault();
         //채팅방리스트 가져오기
         getChatRoomList();
+        //유저 정보 가져오기
+        getUserList();
 
     }
 //===============================================================================================
@@ -93,6 +101,22 @@ const getChatRoomList = () => {
         })
     }else{
         console.log("채팅방없음")
+    }
+}
+
+const getUserList = () => {
+    if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
+        axios({
+            url: 'http://localhost:9099/user/userInfo',
+            method: 'post',
+            data: loginUser
+        }).then((res)=> {
+            
+            console.log(res.data);
+            setUserInfo(res.data)
+        })
+    }else{
+        console.log("유저정보 없음")
     }
 }
 
@@ -119,7 +143,7 @@ const getChatRoomList = () => {
 
         <Chat
             users = {users}
-            loginUser = {loginUser}
+            userInfo = {userInfo}
             chatRoomList = {chatRoomList}
         />
 
