@@ -2,27 +2,8 @@
 import React, { useState, useEffect,useRef } from 'react';
 // import * as Stomp from "webstomp-client";
 import axios from 'axios'
-
-
-
-import { Input } from 'reactstrap';
-import styled from 'styled-components';
-
 import Chat from './components/Chat.js'
 
-const ChatBoxStyle = styled.div`
-  width: 300px;
-  height : 200px;
-  padding: 10px 10px 0px 10px ;
-  border: 2px solid #F3F7F9;
-  text-align: left;
-`;
-
-const ChatInputStyle = styled.input`
-width: 300px;
-padding: 9px 9px 0px 9px ;
-height: 30px;
-`;
 
 const App = () => {
     const [ str, setStr ] = useState('');
@@ -44,11 +25,6 @@ const App = () => {
 
     });
     
-    
-    
-
-
-
     // 첫 렌더링에만 호출하기(매개변수로 빈배열)
     useEffect(() =>{
         axios({
@@ -59,9 +35,6 @@ const App = () => {
             setUsers(res.data);
         })
     },[]);
-
-
-
 
 /*
  *  아이디 비번 입력 
