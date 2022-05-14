@@ -1,5 +1,5 @@
 # homepractice_FE
-개인 공부 및 개인 프로젝트 저장소
+개인 공부 및 개인 프로젝트
 
 - [babel-practice](https://github.com/dhsj8405/homepractice_FE/tree/main/babel-practice) : 바벨 기본 공부  
 
