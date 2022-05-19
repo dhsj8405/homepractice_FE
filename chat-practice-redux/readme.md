@@ -43,7 +43,7 @@
     `yarn add @babel/runtime`
 - 리덕스 설치  
 `yarn add redux react-redux`
-- redux-devtools-extension라이브러리(스토어 상태를 개발자 도구에서 조회가능하게하는 라이브러리)
+- redux-devtools-extension라이브러리(스토어 상태를 개발자 도구에서 조회가능하게하는 라이브러리)  
 `yarn add redux-devtools-extension`  
  [크롬에서 확장 프로그램 설치해야함](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
 
