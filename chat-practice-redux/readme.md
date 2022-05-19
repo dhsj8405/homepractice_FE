@@ -22,6 +22,8 @@
 `yarn add -D webpack webpack-cli webpack-dev-server babel-loader style-loader css-loader sass-loader node-sass @babel/core @babel/cli @babel/cli @babel/preset-env @babel/preset-react`
 - react dom 사용  
 `yarn add react react-dom`
+- 리액트 라우터 설치
+`yarn add react-router-dom`
 - axios 설치  
 `yarn add axios`
 - 스타일 컴포넌트 설치  
