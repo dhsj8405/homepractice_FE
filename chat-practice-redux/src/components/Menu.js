@@ -25,7 +25,7 @@ const Menu = () => {
         <StyledUl>
             <StyledLi><StyledLink to="/">Home</StyledLink></StyledLi>
             <StyledLi><StyledLink to="/about">About</StyledLink></StyledLi>
-            <StyledLi><StyledLink to="/Chat">Chat</StyledLink></StyledLi>
+            <StyledLi><StyledLink to="/chat">Chat</StyledLink></StyledLi>
         </StyledUl>
         
     );

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import styled from 'styled-components';
 // import chatStyle from "assets/chatstyle.css";
@@ -79,14 +79,23 @@ text-align: left;
 `;
 
 const ChatContentsBox = ({messageList,userInfo,selectChatRoomName}) => {
+  
     
-    // const scrollRef = useRef();
-    // const downScroll = () =>{
-    //     console.log(scrollRef.current)
-    //     console.log("z;z")
-    //     scrollRef.current.scrollTop = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
-    // }
-    // downScroll();
+    const scrollRef = useRef();
+    
+    const downScroll = () => {
+        console.log(scrollRef.current);
+        scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+        // console.log(scrollRef.current.scrollTop);
+        // console.log(scrollRef.current.scrollHeight);
+    };
+
+    useEffect(() => {
+        downScroll();    
+      }, [messageList])      
+
+    // const downScroll = () => scrollRef.current.scrollIntoView();
+    
 
     return (
         
@@ -96,8 +105,9 @@ const ChatContentsBox = ({messageList,userInfo,selectChatRoomName}) => {
                 {selectChatRoomName}
             
             </ChatHeader>
-           
-            <ChatUl>
+            <div ref={scrollRef}>
+
+            <ChatUl >
                 <ChatLi>
                     {messageList && messageList.map((list)=>
                             <>
@@ -123,8 +133,10 @@ const ChatContentsBox = ({messageList,userInfo,selectChatRoomName}) => {
                             </>
                     )}
                 </ChatLi>
+
             </ChatUl>
-                
+            </div>
+
             
            
 
