@@ -25,7 +25,7 @@ const StyledLink = styled(Link)`
 const Menu = () => {
     return (
         
-        <div className={styles.layoutComponent}>
+        <div className={styles.headerLayout}>
             <div className = {styles.navLogo}>
                 <Link className={styles.logoLink} to="/">로고</Link>
             </div>

@@ -3,7 +3,7 @@ import React, { useState, useEffect,useRef } from 'react';
 import axios from 'axios'
 import ChatIndex from '../components/ChatIndex.js'
 import Header from '../components/Header';
-
+import styles  from '../assets/css/layout.css';
 
 const Chat = () => {
 
@@ -99,7 +99,8 @@ const getUserList = () => {
     return (
        <>
        <Header />
-        {/* <td>1</td> */}
+
+
         <input
             placeholder="아이디"
             type="id"
@@ -121,6 +122,7 @@ const getUserList = () => {
             userInfo = {userInfo}
             chatRoomList = {chatRoomList}
         />
+
        </>
     );
 };

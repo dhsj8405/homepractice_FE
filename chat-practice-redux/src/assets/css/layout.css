@@ -1,4 +1,5 @@
-.layoutComponent{
+/* 상단 메뉴바 */
+.headerLayout{
     height: 50px;
     /* background-color: #aadca5; */
     border: 1px solid #E9E9F0;
@@ -24,12 +25,15 @@
 .navMenu {
   
     /* float: middle; */
-    padding-right:200px;
+    /* padding-right:200px; */
 }
 .navUl{
     /* float: right; */
     width:100%;
     height:100%;
+    /* text-align: center; */
+    
+
     /* text-align: right; */
 }
 
@@ -49,3 +53,9 @@
 }
 
 
+/* 상단 메뉴바 밑 내용 */
+.centerContent{
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
