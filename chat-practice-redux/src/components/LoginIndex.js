@@ -1,42 +1,25 @@
 import React, { useState, useEffect,useRef } from 'react';
 
+import {
+    Form,
+    Input,
+    InputGroup,
+
+} from 'reactstrap';
 import axios from 'axios'
-import ChatIndex from '../components/ChatIndex.js'
-import Header from '../components/Header';
 
 
-const Chat = () => {
+const LoginIndex = () => {
+const [loginUser, setLoginUser] = useState({
+    id: "",
+    pwd: "",
+});
+const [userInfo, setUserInfo] = useState({
+    id: "",
+    pwd: "",
+    name: "",
 
-    const [ str, setStr ] = useState('');
-    // const [ msg, setMsg] = useState('');
-    // const [ receiveMsg, setReceiveMsg] = useState('');
-    // const [enterStatus, setEnterStatus] = useState(false);
-    // const [inputMessage, setInputMessage]= useState('');
-    const [users, setUsers] = useState('');
-    
-    const [createChatRoomNO, setCreateChatRoomNO] = useState('');
-    const [loginUser, setLoginUser] = useState({
-        id: "",
-        pwd: "",
-    });
-    const [userInfo, setUserInfo] = useState({
-        id: "",
-        pwd: "",
-        name: "",
-
-    });
-    
-    // 첫 렌더링에만 호출하기(매개변수로 빈배열)
-    useEffect(() =>{
-        axios({
-            url: 'http://localhost:9099/main',
-            method: 'GET'
-        }).then((res)=> {
-            //사람 목록 가져옴
-            setUsers(res.data);
-        })
-    },[]);
-
+});
 /*
  *  아이디 비번 입력 
  */
@@ -77,7 +60,6 @@ const getChatRoomList = () => {
         console.log("채팅방없음")
     }
 }
-
 const getUserList = () => {
     if(loginUser.id === "aaaa" || loginUser.id === "bbbb" ){
         axios({
@@ -97,32 +79,31 @@ const getUserList = () => {
 
 
     return (
-       <>
-       <Header />
-        {/* <td>1</td> */}
-        <input
-            placeholder="아이디"
-            type="id"
-            value={loginUser.id}
-            onChange={onChangeInputId}
-        />
-                 
-        <input
-          placeholder="비번"
-          type="password"
-          value={loginUser.pwd}
-          onChange={onChangeInputPwd}
-        />
-        <button onClick={(e)=> onClickLogin(e,loginUser)}>로그인하기</button>
-
-
-        <ChatIndex
-            users = {users}
-            userInfo = {userInfo}
-            chatRoomList = {chatRoomList}
-        />
-       </>
+        <div className='center-content'>
+  
+     
+            {/* <InputGroup className="input-group-alternative"> */}
+            <Form className='login-form'>
+                <InputGroup>
+                    <Input 
+                        type="id" 
+                        value={loginUser.id} 
+                        placeholder='아이디'
+                        onChange={onChangeInputId}
+                    />
+                </InputGroup>
+                <br/>
+                <InputGroup>
+                    <Input 
+                        type="password" 
+                        value={loginUser.pwd}
+                        onChange={onChangeInputPwd}
+                        placeholder='비밀번호' />
+                </InputGroup>
+            </Form>
+            <button onClick={(e)=> onClickLogin(e,loginUser)}>로그인하기</button>
+        </div>
     );
 };
 
-export default Chat;
+export default LoginIndex;

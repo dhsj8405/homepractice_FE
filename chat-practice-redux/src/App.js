@@ -4,10 +4,12 @@ import React from 'react';
 import{BrowserRouter} from 'react-router-dom';
 
 import { Route,Routes } from 'react-router-dom';
-// import { Home, About } from './pages';
+// import { Home, About, Chat, Login } from './pages';
 import Home from './pages/Home';
 import About from './pages/About';
 import Chat from './pages/Chat';
+import Login from './pages/Login';
+
 
 const App = () => {
 
@@ -16,10 +18,9 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element= {<Home/>} />
+                <Route path='/login' element= {<Login/>} />
                 <Route path='/about' element= {<About/>} />
                 <Route path='/chat' element= {<Chat/>} />
-                {/* <Route exact path='/' component={Home}/> */}
-                {/* <Route path='/about' component={About}/> */}
             </Routes>
         </BrowserRouter>
 

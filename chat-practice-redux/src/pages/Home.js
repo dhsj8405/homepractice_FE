@@ -1,9 +1,9 @@
 import React from 'react';
-import Menu from '../components/Menu';
+import Header from '../components/Header';
 const Home = () => {
     return (
         <>
-        <Menu />
+        <Header />
         <div>
             메인화면
         </div>
