@@ -9,31 +9,24 @@
 # 설치 및 추가해야햘것
 - package.json 생성  
 `npm init -y`
-- package.json 수정  
-    ```
-    "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack serve --config config/webpack.config.js --progress --mode development"
-  },
-    ```
+
 - yarn 설치  
 `npm install -g yarn`
 - 웹팩 라이브러리,로더, 바벨로더 설정  
 `yarn add -D webpack webpack-cli webpack-dev-server babel-loader style-loader css-loader sass-loader node-sass @babel/core @babel/cli @babel/cli @babel/preset-env @babel/preset-react`
 - react dom 사용  
 `yarn add react react-dom`
-- cross env 설치 
-프로젝트에서 NODE_PATH 를 사용하여 절대경로로 파일을 불러오기 위하여 환경 변수를 설정 할 때 운영체제마다 방식이 다르므로 공통적인 방법으로 설정 할 수 있게 해주는 라이브러리
-`yarn add cross-env --dev`
-    - node_env 설정
-    package.json파일
+- cross env 설치  
+프로젝트에서 NODE_PATH 를 사용하여 절대경로로 파일을 불러오기 위하여 환경 변수를 설정 할 때 운영체제마다 방식이 다르므로 공통적인 방법으로 설정 할 수 있게 해주는 라이브러리  
+`yarn add cross-env --dev`  
+    - node_env 설정  
+    package.json파일  
     ```
-    "scripts": {
-        "start": "cross-env NODE_PATH=src react-scripts start",
-        "build": "cross-env NODE_PATH=src react-scripts build",
-        "test": "react-scripts test --env=jsdom",
-        "eject": "react-scripts eject"
-    }
+   "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "npx webpack serve --config config/webpack.config.js --progress --mode development",
+        "dev": "cross-env NODE_ENV=development webpack serve --config config/webpack.config.js --mode development --progress"
+    },
     ```
 
 - 리액트 라우터 설치
@@ -45,9 +38,14 @@
 - stomp 모듈,sockjs 설치  
 `yarn add @stomp/stompjs sockjs-client`
 - reactstrap 설치  
-`yarn add reactstrap`
-- babel 플러그인 추가하기( 레디스 연동시 에러해결때문에 )  
-    .config/babel.config.json
+`yarn add reactstrap`  
+- babel 플러그인에 폴리필 추가하기  
+    async,await사용시 regeneratorRuntime 에러 발생  
+    => 최신 문법 지원을 위해 바벨 폴리필  
+    => ES6이상에서 몇가지 메서드들이 기존의 컴파일-타임의 코드변환으로는 해결이 어려움  
+    (ES6이상에서 새롭게 추가된 Promise,Map,Set같은 전역 객체들이나 String.padStart등 전역 객체에 추가된 메서드등 )  
+    => 런-타입에 필요한 기능을 주입하는 폴리필이 필요하다)   
+    .config/babel.config.json  
     ```
     {
     "plugins": ["@babel/plugin-transform-runtime"]
