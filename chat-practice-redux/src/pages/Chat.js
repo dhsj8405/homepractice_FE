@@ -4,7 +4,12 @@ import axios from 'axios'
 import ChatIndex from '../components/ChatIndex.js'
 import Header from '../components/Header';
 import styles  from '../assets/css/layout.css';
+import {
+    Form,
+    Input,
+    InputGroup,
 
+} from 'reactstrap';
 const Chat = () => {
 
     const [ str, setStr ] = useState('');
@@ -99,22 +104,43 @@ const getUserList = () => {
     return (
        <>
        <Header />
-
-
-        <input
+        
+       <div className={styles.centerContent}>
+       <Form className='login-form'>
+                <InputGroup>
+                    <Input 
+                        type="id" 
+                        value={loginUser.id} 
+                        placeholder='아이디'
+                        onChange={onChangeInputId}
+                    />
+                </InputGroup>
+                <br/>
+                <InputGroup>
+                    <Input 
+                        type="password" 
+                        value={loginUser.pwd}
+                        onChange={onChangeInputPwd}
+                        placeholder='비밀번호' />
+                </InputGroup>
+            </Form>
+            <br />
+            <button onClick={(e)=> onClickLogin(e,loginUser)}>로그인하기</button>
+        {/* <input
             placeholder="아이디"
             type="id"
             value={loginUser.id}
             onChange={onChangeInputId}
         />
-                 
+        
         <input
           placeholder="비번"
           type="password"
           value={loginUser.pwd}
           onChange={onChangeInputPwd}
         />
-        <button onClick={(e)=> onClickLogin(e,loginUser)}>로그인하기</button>
+        <br/>
+        <button onClick={(e)=> onClickLogin(e,loginUser)}>로그인하기</button> */}
 
 
         <ChatIndex
@@ -122,7 +148,7 @@ const getUserList = () => {
             userInfo = {userInfo}
             chatRoomList = {chatRoomList}
         />
-
+</div>
        </>
     );
 };

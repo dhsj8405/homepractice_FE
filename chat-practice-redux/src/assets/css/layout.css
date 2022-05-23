@@ -55,7 +55,24 @@
 
 /* 상단 메뉴바 밑 내용 */
 .centerContent{
-    display: flex;
-    justify-content: center;
+    
     padding-top: 100px;
+    margin: 0 300px;
+    
+    /* display: flex;
+    justify-content: center; */
+}
+
+@media(min-width:1000px){
+    .centerContent{
+        margin: 0 400px;
+
+    }   
+}
+
+@media(max-width:800px){
+    .centerContent{
+        margin: 0 auto;
+
+    }   
 }
