@@ -87,7 +87,7 @@
         1. 실시간 다른 브라우저에서 1대1 채팅 기능 완성  
                 (초대하기 기능 구현안돼서 1번유저2번유저가 참여한 채팅방을 임시로 db에 만들어놓음)    
         ![채팅영상](https://user-images.githubusercontent.com/60701130/159219500-6a4b8b83-f370-4f35-8e77-543a761184bf.gif)  
-    5.  
+    5. Route 사용해서 리팩토링 완성
 
 # chat-practice-redux 조직도  
 ```
