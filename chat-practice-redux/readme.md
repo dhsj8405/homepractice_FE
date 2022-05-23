@@ -9,13 +9,7 @@
 # 설치 및 추가해야햘것
 - package.json 생성  
 `npm init -y`
-- package.json 수정  
-    ```
-    "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack serve --config config/webpack.config.js --progress --mode development"
-  },
-    ```
+
 - yarn 설치  
 `npm install -g yarn`
 - 웹팩 라이브러리,로더, 바벨로더 설정  
@@ -28,12 +22,11 @@
     - node_env 설정  
     package.json파일  
     ```
-    "scripts": {
-        "start": "cross-env NODE_PATH=src react-scripts start",
-        "build": "cross-env NODE_PATH=src react-scripts build",
-        "test": "react-scripts test --env=jsdom",
-        "eject": "react-scripts eject"
-    }
+   "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "npx webpack serve --config config/webpack.config.js --progress --mode development",
+        "dev": "cross-env NODE_ENV=development webpack serve --config config/webpack.config.js --mode development --progress"
+    },
     ```
 
 - 리액트 라우터 설치
