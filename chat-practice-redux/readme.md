@@ -45,9 +45,14 @@
 - stomp 모듈,sockjs 설치  
 `yarn add @stomp/stompjs sockjs-client`
 - reactstrap 설치  
-`yarn add reactstrap`
-- babel 플러그인 추가하기( 레디스 연동시 에러해결때문에 )  
-    .config/babel.config.json
+`yarn add reactstrap`  
+- babel 플러그인에 폴리필 추가하기  
+    async,await사용시 regeneratorRuntime 에러 발생  
+    => 최신 문법 지원을 위해 바벨 폴리필  
+    => ES6이상에서 몇가지 메서드들이 기존의 컴파일-타임의 코드변환으로는 해결이 어려움  
+    (ES6이상에서 새롭게 추가된 Promise,Map,Set같은 전역 객체들이나 String.padStart등 전역 객체에 추가된 메서드등 )  
+    => 런-타입에 필요한 기능을 주입하는 폴리필이 필요하다)   
+    .config/babel.config.json  
     ```
     {
     "plugins": ["@babel/plugin-transform-runtime"]
