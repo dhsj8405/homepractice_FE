@@ -1,0 +1,23 @@
+{
+    // 바벨 프리셋
+    // 지원할 브라우저 정보와 일부옵션을 지정하면 자동으로 필요한 기능들 주입함
+    "presets": [
+        ["@babel/preset-env", {
+            "targets": {
+                "ie": "11",
+                "edge": "89",
+                "firefox": "92",
+                "chrome": "90",
+                "opera": "76",
+                "safari" : "15"
+            }
+
+        }],
+        "@babel/react" 
+    ],
+    // async,await사용시 regeneratorRuntime 에러 발생
+    // 최신 문법 지원을 위해 바벨 폴리필
+    // => ES6이상에서 몇가지 메서드들이 기존의 컴파일-타임의 코드변환으로는 해결이 어려움(ES6이상에서 새롭게 추가된 Promise,Map,Set같은 전역 객체들이나 String.padStart등 전역 객체에 추가된 메서드등 )
+    // => 런-타입에 필요한 기능을 주입하는 폴리필이 필요하다) 
+    "plugins": ["@babel/plugin-transform-runtime"]
+}
