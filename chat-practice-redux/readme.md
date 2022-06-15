@@ -105,7 +105,7 @@ chat-practice
     },
     ```
 
-- 리액트 라우터 설치
+- 리액트 라우터 설치  
 `yarn add react-router-dom`
 - axios 설치  
 `yarn add axios`
