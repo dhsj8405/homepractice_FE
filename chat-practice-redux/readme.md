@@ -127,7 +127,7 @@ chat-practice
     "plugins": ["@babel/plugin-transform-runtime"]
     }
     ```
-    `yarn add @babel/plugin-transform-runtime`
+    `yarn add @babel/plugin-transform-runtime`  
     `yarn add @babel/runtime`
 - 리덕스 설치  
 `yarn add redux react-redux`
