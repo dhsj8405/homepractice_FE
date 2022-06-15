@@ -4,7 +4,7 @@
 `Front-end` React  
 `Back-end` Spring Boot   
 `Database` MariaDB  
-`메시징 프로토콜` StompJS(+SockJs)
+`메시징 프로토콜` StompJS(+SockJs)  
 `상태관리` Redux
 
 ## 개발기간
