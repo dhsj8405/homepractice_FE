@@ -1,4 +1,4 @@
-# [레포지토리 이전주소](https://github.com/dhsj8405/homepractice/tree/main/frontend/react)
+# [NEW 레포지토리 주소](https://github.com/dhsj8405/homepractice/tree/main/frontend/react)
 
 
 
